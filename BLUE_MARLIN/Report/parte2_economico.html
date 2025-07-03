@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Economica e Benchmark - Blue Marlin S.r.l. | SCAN V9</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+     <style>
+        .table-success-light { background-color: #d1e7dd !important; }
+        .table-warning-light { background-color: #fff3cd !important; }
+        .table-danger-light { background-color: #f8d7da !important; }
+     </style>
+</head>
+<body>
+
+ <!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>Blue Marlin S.r.l.</h5> </div>
+        <ul class="sidebar-nav flex-grow-1">
+            <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+            <li class="nav-title">Analisi Dettagliata</li>
+            <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte5_circolante_flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+            <li class="nav-title">Approfondimenti</li>
+            <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+        </ul>
+        <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+    </aside>
+
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                <h5 class="mb-0">Report Dettagliato: Analisi Economica e Benchmark</h5>
+                <p class="mb-0">Blue Marlin S.r.l. | <span class="report-date">31 Dicembre 2024</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <span id="irp-header-badge" class="badge me-3"></span>
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Blue Marlin S.r.l. </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">Blue Marlin S.r.l.</span></h1>
+            <p class="text-center mb-0">Report Dettagliato: Analisi Economica e Benchmark | <span class="report-date">31 Dicembre 2024</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Specifico del Report -->
+        <div class="dashboard-container">
+
+            <!-- ================================================================ -->
+            <!-- CONTENUTO SPECIFICO PARTE 2 - V9 - Updated for Blue Marlin S.r.l. -->
+            <!-- ================================================================ -->
+
+             <h2 class="section-title" id="economic-analysis"><i class="fas fa-balance-scale me-2"></i>SEZIONE 2.1: ANALISI ECONOMICA</h2>
+
+            <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">2.1.1 Conto Economico Riclassificato</h5></div>
+                <div class="card-body">
+                    <p>Il conto economico riclassificato evidenzia la struttura dei costi e dei ricavi di Blue Marlin S.r.l. nel periodo 2022-2024, consentendo di valutare la redditività operativa e netta.</p>
+
+                     <h6 class="mt-4 text-center small">Grafico 2.1: Andamento Ricavi ed EBITDA 2022-2024 (€000 e %)</h6>
+                     <div class="chart-container mb-4" style="height: 350px;">
+                         <canvas id="economicTrendChart"></canvas>
+                     </div>
+
+                    <h6 class="mt-4">Tabella 2.1: Conto Economico Riclassificato 2022-2024 (valori in €)</h6>
+                     <div class="table-responsive">
+                         <table class="table table-sm table-striped table-hover">
+                             <thead class="table-light">
+                                 <tr><th>Voce</th><th class="text-end">2022</th><th class="text-end">% Ricavi</th><th class="text-end">2023</th><th class="text-end">% Ricavi</th><th class="text-end">2024</th><th class="text-end">% Ricavi</th><th class="text-end">Var. % 23-24</th></tr>
+                             </thead>
+                             <tbody>
+                                 <tr><td>Ricavi</td><td class="text-end">1.263.072</td><td class="text-end">100,0%</td><td class="text-end">1.227.410</td><td class="text-end">100,0%</td><td class="text-end">1.223.477</td><td class="text-end">100,0%</td><td class="text-danger">-0,32%</td></tr>
+                                 <tr><td>- Acquisti e consumi</td><td class="text-end">-815.744</td><td class="text-end">-64,6%</td><td class="text-end">-753.467</td><td class="text-end">-61,4%</td><td class="text-end">-628.160</td><td class="text-end">-51,3%</td><td class="text-success">-16,63%</td></tr>
+                                 <tr class="table-secondary"><td>= Valore Aggiunto su Consumi</td><td class="text-end">447.328</td><td class="text-end">35,4%</td><td class="text-end">473.943</td><td class="text-end">38,6%</td><td class="text-end">595.317</td><td class="text-end">48,7%</td><td class="text-success">+25,61%</td></tr>
+                                 <tr><td>- Costi variabili di produzione</td><td class="text-end">-171.284</td><td class="text-end">-13,6%</td><td class="text-end">-218.766</td><td class="text-end">-17,8%</td><td class="text-end">-162.537</td><td class="text-end">-13,3%</td><td class="text-success">-25,71%</td></tr>
+                                 <tr class="table-secondary"><td>= Margine di Contribuzione</td><td class="text-end">276.044</td><td class="text-end">21,9%</td><td class="text-end">255.177</td><td class="text-end">20,8%</td><td class="text-end">432.780</td><td class="text-end">35,4%</td><td class="text-success">+69,60%</td></tr>
+                                 <tr><td>- Costi fissi</td><td class="text-end">-183.357</td><td class="text-end">-14,5%</td><td class="text-end">-202.251</td><td class="text-end">-16,5%</td><td class="text-end">-209.237</td><td class="text-end">-17,1%</td><td class="text-danger">+3,45%</td></tr>
+                                 <tr class="table-success fw-bold"><td>= EBITDA</td><td class="text-end">92.687</td><td class="text-end">7,3%</td><td class="text-end">52.926</td><td class="text-end">4,3%</td><td class="text-end">223.543</td><td class="text-end">18,27%</td><td class="text-success">+322,37%</td></tr>
+                                 <tr><td>- Ammortamenti e svalutazioni</td><td class="text-end">-35.140</td><td class="text-end">-2,8%</td><td class="text-end">-33.282</td><td class="text-end">-2,7%</td><td class="text-end">-45.489</td><td class="text-end">-3,7%</td><td class="text-danger">+36,68%</td></tr>
+                                 <tr class="table-secondary"><td>= EBIT</td><td class="text-end">57.547</td><td class="text-end">4,6%</td><td class="text-end">19.644</td><td class="text-end">1,6%</td><td class="text-end">178.054</td><td class="text-end">14,55%</td><td class="text-success">+806,38%</td></tr>
+                                 <tr><td>+/- Saldo Oneri/Ricavi Diversi</td><td class="text-end">-6.064</td><td class="text-end">-0,5%</td><td class="text-end">49.906</td><td class="text-end">4,1%</td><td class="text-end">13.765</td><td class="text-end">1,1%</td><td class="text-danger">-72,42%</td></tr>
+                                 <tr class="table-secondary"><td>= Margine Ante Gestione Fin.</td><td class="text-end">51.483</td><td class="text-end">4,1%</td><td class="text-end">69.550</td><td class="text-end">5,7%</td><td class="text-end">191.819</td><td class="text-end">15,7%</td><td class="text-success">+175,82%</td></tr>
+                                 <tr><td>+/- Gestione Finanziaria</td><td class="text-end">-43.552</td><td class="text-end">-3,4%</td><td class="text-end">-58.440</td><td class="text-end">-4,8%</td><td class="text-end">-48.365</td><td class="text-end">-4,0%</td><td class="text-success">-17,23%</td></tr>
+                                 <tr class="table-secondary"><td>= Risultato Ante Imposte (EBT)</td><td class="text-end">7.931</td><td class="text-end">0,6%</td><td class="text-end">11.110</td><td class="text-end">0,9%</td><td class="text-end">143.454</td><td class="text-end">11,7%</td><td class="text-success">+1.191,16%</td></tr>
+                                 <tr><td>- Imposte</td><td class="text-end">-7.273</td><td class="text-end">-0,6%</td><td class="text-end">2.275</td><td class="text-end">0,2%</td><td class="text-end">-64</td><td class="text-end">0,0%</td><td class="text-danger">-102,81%</td></tr>
+                                 <tr class="table-success fw-bold"><td>= Utile/Perdita di esercizio</td><td class="text-end">658</td><td class="text-end">0,1%</td><td class="text-end">13.385</td><td class="text-end">1,1%</td><td class="text-end">143.390</td><td class="text-end">11,7%</td><td class="text-success">+971,23%</td></tr>
+                             </tbody>
+                         </table>
+                     </div>
+
+                    <h6 class="mt-4">Analisi del Conto Economico (Blue Marlin S.r.l.):</h6>
+                    <ol class="small">
+                        <li><strong>Ricavi:</strong> Sostanziale stabilizzazione (-0,32%) nel 2024 rispetto al 2023, dopo un calo più marcato (-2,82%) registrato nel 2023 rispetto al 2022. Il volume d'affari si attesta a €1.223.477.</li>
+                        <li><strong>Valore Aggiunto su Consumi:</strong> Significativo incremento al 48,7% dei ricavi nel 2024 (+25,61% rispetto al 2023), indicativo di un marcato miglioramento nell'efficienza dell'approvvigionamento.</li>
+                        <li><strong>Margine di Contribuzione (35,4%):</strong> Espansione straordinaria (+69,60%), attribuibile sia al miglioramento del valore aggiunto sia alla riduzione dell'incidenza dei costi variabili di produzione.</li>
+                        <li><strong>EBITDA (18,27%):</strong> Crescita esponenziale (+322,37% rispetto al 2023), con un incremento in valore assoluto di €170.617. Tale risultato eccezionale appare anomalo rispetto all'andamento dei ricavi.</li>
+                        <li><strong>EBIT (14,55%):</strong> Miglioramento altrettanto significativo (+806,38% rispetto al 2023), nonostante l'incremento degli ammortamenti (+36,68%).</li>
+                        <li><strong>Utile Netto (11,7%):</strong> Incremento straordinario (+971,23% rispetto al 2023), con un risultato di €143.390 che rappresenta un punto di svolta nella performance aziendale.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">2.1.2 Analisi della Marginalità</h5></div>
+                 <div class="card-body">
+                    <p>L'analisi della marginalità permette di valutare la capacità dell'azienda di generare valore attraverso la propria attività caratteristica.</p>
+                    <div class="row">
+                        <div class="col-lg-7 mb-3 mb-lg-0">
+                            <h6 class="text-center small">Grafico 2.2: Evoluzione delle Principali Marginalità (%)</h6>
+                             <div class="chart-container" style="height: 350px;">
+                                 <canvas id="marginalityChart"></canvas>
+                             </div>
+                        </div>
+                         <div class="col-lg-5">
+                             <h6>Tabella 2.2: Evoluzione Indici di Marginalità (Blue Marlin S.r.l.)</h6>
+                             <div class="table-responsive">
+                                <table class="table table-sm table-striped table-hover">
+                                     <thead><tr><th>Indicatore</th><th class="text-end">2022</th><th class="text-end">2023</th><th class="text-end">2024</th><th>Trend</th></tr></thead>
+                                     <tbody>
+                                         <tr><td>Valore Aggiunto/Ricavi</td><td class="text-end">35,4%</td><td class="text-end">38,6%</td><td class="text-end">48,7%</td><td class="text-success"><i class="fas fa-arrow-up"></i></td></tr>
+                                         <tr><td>MdC/Ricavi</td><td class="text-end">21,9%</td><td class="text-end">20,8%</td><td class="text-end">35,4%</td><td class="text-success"><i class="fas fa-arrow-up"></i></td></tr>
+                                         <tr><td>EBITDA/Ricavi</td><td class="text-end">7,3%</td><td class="text-end">4,3%</td><td class="text-end">18,27%</td><td class="text-success"><i class="fas fa-arrow-up"></i></td></tr>
+                                         <tr><td>ROS (EBIT/Ricavi)</td><td class="text-end">4,6%</td><td class="text-end">1,6%</td><td class="text-end">14,55%</td><td class="text-success"><i class="fas fa-arrow-up"></i></td></tr>
+                                         <tr><td>Utile Netto/Ricavi</td><td class="text-end">0,1%</td><td class="text-end">1,1%</td><td class="text-end">11,7%</td><td class="text-success"><i class="fas fa-arrow-up"></i></td></tr>
+                                         <tr class="table-secondary"><td>Break-Even Point (€)</td><td class="text-end">N/D</td><td class="text-end">N/D</td><td class="text-end">590.882</td><td><i class="fas fa-check text-success"></i></td></tr>
+                                         <tr class="table-secondary"><td>Margine Sicurezza</td><td class="text-end">N/D</td><td class="text-end">N/D</td><td class="text-end">51,70%</td><td><i class="fas fa-check text-success"></i></td></tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                             <h6 class="mt-3">Break-Even e Leva Operativa (2024 - Blue Marlin S.r.l.)</h6>
+                             <div class="alert-box alert-info small mt-2 p-2">
+                                 <ul class="list-unstyled mb-0">
+                                     <li><i class="fas fa-bullseye me-1"></i> BEP: €590.882 | Margine Sicurezza: 51,70% (Ottimo)</li>
+                                     <li><i class="fas fa-calculator me-1"></i> Moltiplicatore CF: 2,83</li>
+                                     <li><i class="fas fa-arrows-alt-v me-1"></i> Resistenza Calo Ricavi: -51,70% | Aumento CF: +35,4%</li>
+                                 </ul>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">2.1.3 Struttura e Dettaglio Principali Costi</h5></div>
+                 <div class="card-body">
+                     <p>Analisi delle principali voci di costo e loro incidenza.</p>
+                     <h6 class="mt-4">Tabella 2.3: Struttura dei Costi 2023-2024 (Blue Marlin S.r.l.)</h6>
+                      <div class="table-responsive">
+                         <table class="table table-sm table-striped table-hover">
+                            <thead class="table-light">
+                                <tr><th>Categoria di Costo</th><th class="text-end">2023 (€)</th><th class="text-end">% Ricavi</th><th class="text-end">2024 (€)</th><th class="text-end">% Ricavi</th><th>Var%</th><th>Benchmark</th><th>Valutazione</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Acquisti e consumi</td><td class="text-end">753.467</td><td class="text-end">61,4%</td><td class="text-end">628.160</td><td class="text-end">51,3%</td><td class="text-success">-16,63%</td><td>55-60%</td><td><span class="status-badge bg-success">Ottimo</span></td></tr>
+                                <tr><td>Costi variabili prod.</td><td class="text-end">218.766</td><td class="text-end">17,8%</td><td class="text-end">162.537</td><td class="text-end">13,3%</td><td class="text-success">-25,71%</td><td>15-18%</td><td><span class="status-badge bg-success">Efficiente</span></td></tr>
+                                <tr><td>Costo del personale</td><td class="text-end">158.788</td><td class="text-end">12,9%</td><td class="text-end">158.415</td><td class="text-end">13,0%</td><td class="text-success">-0,23%</td><td>10-14%</td><td><span class="status-badge bg-secondary">In linea</span></td></tr>
+                                <tr><td>Altri costi fissi</td><td class="text-end">43.463</td><td class="text-end">3,5%</td><td class="text-end">50.822</td><td class="text-end">4,2%</td><td class="text-danger">+16,93%</td><td>3-5%</td><td><span class="status-badge bg-secondary">In linea</span></td></tr>
+                                <tr><td>Ammortamenti</td><td class="text-end">33.282</td><td class="text-end">2,7%</td><td class="text-end">25.489</td><td class="text-end">2,1%</td><td class="text-success">-23,42%</td><td>2-4%</td><td><span class="status-badge bg-secondary">In linea</span></td></tr>
+                                <tr><td>Svalutazioni e acc.</td><td class="text-end">0</td><td class="text-end">0,0%</td><td class="text-end">20.000</td><td class="text-end">1,6%</td><td class="text-danger">N/A</td><td>0,5-1%</td><td><span class="status-badge bg-warning">Elevato</span></td></tr>
+                                <tr><td>Oneri diversi</td><td class="text-end">32.683</td><td class="text-end">2,7%</td><td class="text-end">15.603</td><td class="text-end">1,3%</td><td class="text-success">-52,26%</td><td>2-3%</td><td><span class="status-badge bg-warning">Basso</span></td></tr>
+                                <tr><td>Oneri finanziari</td><td class="text-end">58.440</td><td class="text-end">4,8%</td><td class="text-end">48.365</td><td class="text-end">4,0%</td><td class="text-success">-17,23%</td><td>2-4%</td><td><span class="status-badge bg-warning">Limite</span></td></tr>
+                            </tbody>
+                         </table>
+                     </div>
+                     <h6 class="mt-4">Approfondimento (Blue Marlin S.r.l.):</h6>
+                     <ul class="small">
+                          <li><strong>Acquisti e consumi (51,3%):</strong> La significativa riduzione dell'incidenza dal 61,4% al 51,3% dei ricavi (-10,1 punti percentuali) rappresenta il principale driver del miglioramento della marginalità.</li>
+                          <li><strong>Costi variabili (13,3%):</strong> La riduzione dell'incidenza dal 17,8% al 13,3% dei ricavi (-4,5 punti percentuali) evidenzia un'ottimizzazione dei processi produttivi e logistici.</li>
+                          <li><strong>Personale (13,0%):</strong> L'incidenza risulta allineata al benchmark di settore (10-14%), con una sostanziale stabilità rispetto all'esercizio precedente.</li>
+                          <li><strong>Oneri finanziari (4,0%):</strong> L'incidenza, sebbene in miglioramento rispetto al 2023, rimane al limite superiore del benchmark di settore (2-4%), evidenziando un potenziale area di ottimizzazione.</li>
+                          <li><strong>Svalutazioni (1,6%):</strong> L'incremento da zero a €20.000 suggerisce un approccio più prudenziale nella valutazione di alcune poste dell'attivo.</li>
+                     </ul>
+                 </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">2.1.4 Indici di Redditività</h5></div>
+                 <div class="card-body">
+                     <p>Analisi della capacità di generare ritorni adeguati.</p>
+                      <div class="row">
+                         <div class="col-lg-7 mb-3 mb-lg-0">
+                             <h6>Tabella 2.4: Indici di Redditività 2022-2024 (Blue Marlin S.r.l.)</h6>
+                              <div class="table-responsive">
+                                 <table class="table table-sm table-striped table-hover">
+                                     <thead class="table-light"><tr><th>Indice</th><th>Formula</th><th class="text-end">2022</th><th class="text-end">2023</th><th class="text-end">2024</th><th>Soglia</th><th>Valutazione</th></tr></thead>
+                                     <tbody>
+                                         <tr><td>ROE</td><td>Utile/PN</td><td class="text-end">0,20%</td><td class="text-end">3,82%</td><td class="text-end">29,02%</td><td>>8%</td><td><span class="status-badge bg-success">Eccellente</span></td></tr>
+                                         <tr><td>ROI</td><td>EBIT/CIN</td><td class="text-end">3,85%</td><td class="text-end">1,40%</td><td class="text-end">10,89%</td><td>>6%</td><td><span class="status-badge bg-success">Ottimo</span></td></tr>
+                                         <tr><td>ROS</td><td>EBIT/Ricavi</td><td class="text-end">4,6%</td><td class="text-end">1,6%</td><td class="text-end">14,55%</td><td>>5%</td><td><span class="status-badge bg-success">Eccellente</span></td></tr>
+                                         <tr><td>EBITDA Margin</td><td>EBITDA/Ricavi</td><td class="text-end">7,3%</td><td class="text-end">4,3%</td><td class="text-end">18,27%</td><td>>8%</td><td><span class="status-badge bg-success">Eccellente</span></td></tr>
+                                         <tr><td>Utile Netto/Ricavi</td><td>Utile/Ricavi</td><td class="text-end">0,1%</td><td class="text-end">1,1%</td><td class="text-end">11,7%</td><td>>2%</td><td><span class="status-badge bg-success">Eccellente</span></td></tr>
+                                         <tr><td>Turnover</td><td>Ricavi/CIN</td><td class="text-end">0,84</td><td class="text-end">0,88</td><td class="text-end">0,75</td><td>>1,5</td><td><span class="status-badge bg-danger">Insufficiente</span></td></tr>
+                                         <tr><td>Cash Flow Op./Ricavi</td><td>CFO/Ricavi</td><td class="text-end">-7,07%</td><td class="text-end">7,64%</td><td class="text-end">-6,99%</td><td>>5%</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                          <div class="col-lg-5">
+                              <h6 class="text-center small">Grafico 2.3: Andamento Redditività (%)</h6>
+                              <div class="chart-container" style="height: 280px;"> <canvas id="profitabilityIndicesChart"></canvas> </div>
+                         </div>
+                     </div>
+                      <h6 class="mt-4">Analisi (Blue Marlin S.r.l.):</h6>
+                      <ul class="small">
+                          <li><strong>ROI (10,89%):</strong> Il valore rappresenta un miglioramento straordinario rispetto agli esercizi precedenti, posizionandosi al limite superiore del benchmark di settore.</li>
+                          <li><strong>ROE (29,02%):</strong> Performance eccezionale, significativamente superiore al benchmark di settore (8-12%). Tale risultato deriva dalla combinazione di miglioramento operativo e effetto leva finanziaria positivo.</li>
+                          <li><strong>ROS (14,55%):</strong> Conferma l'eccellente redditività delle vendite, con un valore quasi doppio rispetto al limite superiore del benchmark settoriale.</li>
+                          <li><strong>Asset Turnover (0,75):</strong> Significativamente inferiore al benchmark di settore (1,5-2,0), indicando un'inefficienza nell'utilizzo del capitale investito.</li>
+                          <li><strong>Cash Flow Operativo/Ricavi (-6,99%):</strong> Criticità significativa, indicando che nonostante l'eccellente redditività economica, l'azienda presenta difficoltà nella conversione dei profitti in flussi di cassa operativi.</li>
+                      </ul>
+                 </div>
+            </div>
+
+             <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">2.1.5 Effetto Leva Finanziaria</h5></div>
+                 <div class="card-body">
+                     <p>Valutazione dell'impatto dell'indebitamento sulla redditività del capitale proprio.</p>
+                      <div class="row">
+                          <div class="col-lg-7 mb-3 mb-lg-0">
+                              <h6>Tabella 2.5: Analisi Effetto Leva 2022-2024 (Blue Marlin S.r.l.)</h6>
+                              <div class="table-responsive">
+                                 <table class="table table-sm table-striped table-hover">
+                                      <thead><tr><th>Componente</th><th>Formula</th><th class="text-end">2022</th><th class="text-end">2023</th><th class="text-end">2024</th></tr></thead>
+                                      <tbody>
+                                          <tr><td>ROI</td><td>EBIT/CIN</td><td class="text-end">3,85%</td><td class="text-end">1,40%</td><td class="text-end">10,89%</td></tr>
+                                          <tr><td>Costo medio debito (i)</td><td>Oneri Fin./Debiti Fin.</td><td class="text-end">3,75%</td><td class="text-end">5,49%</td><td class="text-end">4,25%</td></tr>
+                                          <tr><td>Rapporto D/E</td><td>Debiti Fin./PN</td><td class="text-end">3,45</td><td class="text-end">3,04</td><td class="text-end">2,45</td></tr>
+                                          <tr class="table-secondary"><td>Spread (ROI-i)</td><td>ROI - i</td><td class="text-end text-success">+0,10%</td><td class="text-end text-danger">-4,09%</td><td class="text-end text-success">+6,64%</td></tr>
+                                          <tr class="table-secondary"><td>Effetto Leva</td><td>(ROI-i) × D/E</td><td class="text-end text-success">+0,35%</td><td class="text-end text-danger">-12,43%</td><td class="text-end text-success">+16,27%</td></tr>
+                                          <tr><td>ROE calcolato</td><td>ROI + Effetto Leva</td><td class="text-end">4,20%</td><td class="text-end">-11,03%</td><td class="text-end">27,16%</td></tr>
+                                          <tr class="fw-bold"><td>ROE effettivo</td><td>Utile Netto/PN</td><td class="text-end">0,20%</td><td class="text-end">3,82%</td><td class="text-end">29,02%</td></tr>
+                                      </tbody>
+                                 </table>
+                              </div>
+                          </div>
+                          <div class="col-lg-5">
+                               <h6 class="text-center small">Grafico 2.4: Confronto ROI vs ROE (%)</h6>
+                               <div class="chart-container" style="height: 250px;"> <canvas id="leverageChart"></canvas> </div>
+                                <h6 class="mt-4">Analisi Leva (Blue Marlin S.r.l.):</h6>
+                               <ul class="small list-unstyled">
+                                   <li><i class="fas fa-check-circle text-success me-1"></i> Spread (ROI-i) fortemente positivo (+6,64%).</li>
+                                   <li><i class="fas fa-check-circle text-success me-1"></i> Effetto Leva molto positivo (+16,27% sul ROE).</li>
+                                   <li><i class="fas fa-exclamation-circle text-warning me-1"></i> Leva D/E elevata (2,45x - Rischio).</li>
+                                   <li><i class="fas fa-info-circle text-info me-1"></i> ROE Effettivo > Teorico (probabile impatto positivo componenti straordinarie).</li>
+                               </ul>
+                          </div>
+                      </div>
+                 </div>
+            </div>
+
+             <h2 class="section-title mt-5" id="benchmark"><i class="fas fa-chart-bar me-2"></i>SEZIONE 2.2: BENCHMARK E POSIZIONAMENTO COMPETITIVO</h2>
+
+            <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">2.2.1 Posizionamento Competitivo</h5></div>
+                 <div class="card-body">
+                     <p>Valutazione della performance rispetto al settore "Commercio all'ingrosso di pesce" (ATECO 46.32.3).</p>
+                     <div class="row">
+                         <div class="col-lg-7 mb-3 mb-lg-0">
+                              <h6 class="text-center small">Grafico 2.5: Posizionamento Competitivo (Base 100 = Media Settore)</h6>
+                             <div class="chart-container" style="height: 350px;"> <canvas id="benchmarkRadarChart"></canvas>
+                                 <script>
+                                     document.addEventListener('DOMContentLoaded', function() {
+                                         const ctxBenchmarkRadar = document.getElementById('benchmarkRadarChart');
+
+                                         if (ctxBenchmarkRadar) {
+                                             try {
+                                                  const benchmarkRadarData = {
+                                                     labels: ["Crescita Ricavi", "EBITDA Margin", "ROI", "Turnover", "Costo Personale (inv)", "PFN/EBITDA (inv)", "D/E (inv)"],
+                                                     datasets: [
+                                                         {
+                                                             label: "Blue Marlin S.r.l.",
+                                                             data: [40, 182, 125, 50, 105, 59, 61],
+                                                             backgroundColor: "rgba(25, 25, 112, 0.3)",
+                                                             borderColor: "rgba(25, 25, 112, 1)",
+                                                             borderWidth: 2, pointBackgroundColor: "rgba(25, 25, 112, 1)", pointBorderColor: "#fff",
+                                                             pointHoverBackgroundColor: "#fff", pointHoverBorderColor: "rgba(25, 25, 112, 1)"
+                                                         },
+                                                         {
+                                                             label: "Media Settore",
+                                                             data: [100, 100, 100, 100, 100, 100, 100],
+                                                             backgroundColor: "rgba(217, 140, 0, 0.3)",
+                                                             borderColor: "rgba(217, 140, 0, 1)",
+                                                             borderWidth: 2, pointBackgroundColor: "rgba(217, 140, 0, 1)", pointBorderColor: "#fff",
+                                                             pointHoverBackgroundColor: "#fff", pointHoverBorderColor: "rgba(217, 140, 0, 1)"
+                                                         }
+                                                     ]
+                                                 };
+
+                                                 const benchmarkRadarOptions = {
+                                                     responsive: true,
+                                                     maintainAspectRatio: false,
+                                                       scales: {
+                                                          r: {
+                                                              angleLines: { color: '#e0e0e0' }, grid: { color: '#e0e0e0' },
+                                                              pointLabels: { font: { size: 10 } },
+                                                              ticks: {
+                                                                  backdropColor: 'rgba(255, 255, 255, 0.75)', font: { size: 9 },
+                                                                  maxTicksLimit: 5,
+                                                              },
+                                                              suggestedMin: 0,
+                                                          }
+                                                       },
+                                                       plugins: {
+                                                            legend: { position: 'bottom', labels: { boxWidth: 12, padding: 15, font: { size: 11 } } },
+                                                            title: { display: false },
+                                                            tooltip: {
+                                                                backgroundColor: 'rgba(0, 0, 0, 0.8)', titleFont: { weight: 'bold', size: 13 },
+                                                                bodyFont: { size: 12 }, padding: 10, cornerRadius: 4, displayColors: true, boxPadding: 4,
+                                                                callbacks: {
+                                                                    label: function(context) {
+                                                                        let label = context.dataset.label || '';
+                                                                        if (label) label += ': ';
+                                                                        if (context.parsed.r !== null) { label += context.parsed.r.toFixed(1); }
+                                                                        else { label += 'N/D'; }
+                                                                        return label;
+                                                                    }
+                                                                }
+                                                            }
+                                                       },
+                                                       animation: { duration: 400 }
+                                                 };
+
+                                                 const existingChart = Chart.getChart(ctxBenchmarkRadar);
+                                                 if (existingChart instanceof Chart) {
+                                                     existingChart.destroy();
+                                                 }
+
+                                                 new Chart(ctxBenchmarkRadar, {
+                                                     type: 'radar',
+                                                     data: benchmarkRadarData,
+                                                     options: benchmarkRadarOptions
+                                                 });
+                                                 console.log("Grafico benchmarkRadarChart inizializzato direttamente in HTML.");
+
+                                             } catch (error) {
+                                                 console.error("Errore inizializzazione grafico benchmarkRadarChart in HTML:", error);
+                                                  const ctx = ctxBenchmarkRadar.getContext('2d');
+                                                   if (ctx) {
+                                                       ctx.clearRect(0, 0, ctxBenchmarkRadar.width, ctxBenchmarkRadar.height);
+                                                       ctx.font = '14px Titillium Web, sans-serif';
+                                                       ctx.fillStyle = '#dc3545';
+                                                       ctx.textAlign = 'center';
+                                                       ctx.fillText('Errore durante il caricamento del grafico.', ctxBenchmarkRadar.width / 2, ctxBenchmarkRadar.height / 2);
+                                                   }
+                                             }
+                                         } else {
+                                              console.warn("Canvas 'benchmarkRadarChart' non trovato.");
+                                         }
+                                     });
+                                 </script>
+                                 </div>
+                         </div>
+                         <div class="col-lg-5">
+                              <h6>Tabella 2.6: Posizionamento Competitivo 2024 (Blue Marlin S.r.l.)</h6>
+                              <div class="table-responsive">
+                                <table class="table table-sm table-striped table-hover">
+                                    <thead><tr><th>Indicatore</th><th>Blue Marlin</th><th>Media Sett.</th><th>Gap</th><th>Valutazione</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>Crescita ricavi</td><td>-0,32%</td><td>+3-5%</td><td class="text-danger">-4,0%</td><td><span class="status-badge bg-danger">Inferiore</span></td></tr>
+                                        <tr><td>EBITDA Margin</td><td>18,27%</td><td>8-12%</td><td class="text-success">+7,3%</td><td><span class="status-badge bg-success">Superiore</span></td></tr>
+                                        <tr><td>ROS</td><td>14,55%</td><td>5-8%</td><td class="text-success">+7,6%</td><td><span class="status-badge bg-success">Superiore</span></td></tr>
+                                        <tr><td>Turnover</td><td>0,75</td><td>1,5-2,0</td><td class="text-danger">-0,9</td><td><span class="status-badge bg-danger">Inferiore</span></td></tr>
+                                        <tr><td>ROI</td><td>10,89%</td><td>6-10%</td><td class="text-success">+1,9%</td><td><span class="status-badge bg-success">Superiore</span></td></tr>
+                                        <tr><td>Leva D/E</td><td>2,45</td><td>1,5-2,0</td><td class="text-danger">+0,65</td><td><span class="status-badge bg-warning">Elevato</span></td></tr>
+                                        <tr><td>Ciclo Circolante</td><td>282 gg</td><td>45-75 gg</td><td class="text-danger">+222 gg</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                                        <tr><td>PFN/EBITDA</td><td>5,11</td><td>2,0-3,0</td><td class="text-danger">+2,6</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                                    </tbody>
+                                </table>
+                              </div>
+                         </div>
+                     </div>
+                      <h6 class="mt-4">Analisi posizionamento (Blue Marlin S.r.l.):</h6>
+                      <p class="small mb-0">Blue Marlin S.r.l. presenta un <strong>posizionamento competitivo peculiare</strong>, caratterizzato da redditività operativa (EBITDA Margin e ROI) significativamente superiore alla media di settore, indicativa di un posizionamento su segmenti premium, ma con dimensione aziendale inferiore alla media settoriale, suggerendo una strategia di nicchia focalizzata. La struttura finanziaria mostra un leverage elevato, superiore ai parametri di riferimento settoriali, e una gestione del capitale circolante anomala, con tempi di rotazione delle scorte (292 giorni) e ciclo del circolante (282 giorni) significativamente superiori ai benchmark.</p>
+                 </div>
+            </div>
+
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">2.2.2 Gap Analysis vs Best Practice</h5></div>
+                  <div class="card-body">
+                     <p>Identificazione aree di miglioramento rispetto alle best practice.</p>
+                     <h6 class="mt-4">Tabella 2.7: Gap Analysis 2024 (Blue Marlin S.r.l.)</h6>
+                      <div class="table-responsive">
+                         <table class="table table-sm table-striped table-hover">
+                            <thead class="table-light"> <tr><th>Area</th><th>Indicatore</th><th>Valore Attuale</th><th>Best Practice</th><th>Gap</th><th>Impatto Potenziale</th><th>Priorità</th></tr></thead>
+                             <tbody>
+                                <tr><td>Crescita</td><td>Var. Ricavi</td><td>-0,32%</td><td>+3-5%</td><td class="text-danger">-4,0%</td><td>Perdita quote mercato</td><td><span class="status-badge bg-warning text-dark">Media</span></td></tr>
+                                <tr><td>Efficienza</td><td>Asset Turnover</td><td>0,75</td><td>1,5-2,0</td><td class="text-danger">-0,9</td><td>Allocazione sub-ottimale</td><td><span class="status-badge bg-warning text-dark">Media</span></td></tr>
+                                <tr><td>Solidità</td><td>PFN/EBITDA</td><td>5,11</td><td>2,0-3,0</td><td class="text-danger">+2,6</td><td>Rischio finanziario</td><td><span class="status-badge bg-danger">Alta</span></td></tr>
+                                <tr><td>Struttura Fin.</td><td>D/E Ratio</td><td>2,45</td><td>1,5-2,0</td><td class="text-danger">+0,65</td><td>Stress finanziario</td><td><span class="status-badge bg-warning text-dark">Media</span></td></tr>
+                                <tr><td>Capitale Circolante</td><td>Ciclo circolante (gg)</td><td>282</td><td>45-75</td><td class="text-danger">+222</td><td>Assorbimento liquidità</td><td><span class="status-badge bg-danger">Alta</span></td></tr>
+                                <tr><td>Liquidità</td><td>Cash Flow Op./Ricavi</td><td>-6,99%</td><td>5-8%</td><td class="text-danger">-13%</td><td>Crisi di liquidità</td><td><span class="status-badge bg-danger">Alta</span></td></tr>
+                             </tbody>
+                         </table>
+                     </div>
+                  </div>
+             </div>
+
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">2.2.3 Azioni di Miglioramento Suggerite</h5></div>
+                  <div class="card-body">
+                      <h6 class="mt-4">Tabella 2.8: Piano di Azione Economico (Sintesi - Blue Marlin S.r.l.)</h6>
+                      <div class="table-responsive">
+                          <table class="table table-sm table-hover action-table">
+                              <thead class="table-light"><tr><th><i class="fas fa-flag me-1"></i> Area</th><th><i class="fas fa-wrench me-1"></i> Azione Suggerita</th><th><i class="fas fa-chart-line me-1"></i> Effetti Previsti</th><th><i class="fas fa-coins me-1"></i> Net Benefit Stimato</th></tr></thead>
+                              <tbody>
+                                  <tr><td>Gestione Magazzino</td><td>Implementare analisi ABC delle scorte, promozioni per smaltire l'eccesso</td><td>Riduzione DIO a 180 giorni (-112 giorni)</td><td class="text-success">€195.440 liquidità</td></tr>
+                                  <tr><td>Crediti Clienti</td><td>Politica di sconti per pagamenti anticipati e rafforzamento procedure di sollecito</td><td>Riduzione DSO a 90 giorni (-30 giorni)</td><td class="text-success">€101.970 liquidità</td></tr>
+                                  <tr><td>Struttura Fin.</td><td>Ricapitalizzazione €300-400k</td><td>Riduzione D/E a 1,5x</td><td class="text-success">€48.000 oneri fin.</td></tr>
+                                  <tr><td>Crescita</td><td>Sviluppo canali B2B premium e espansione geografica controllata</td><td>Incremento volumi e consolidamento posizionamento premium</td><td class="text-success">+5-8% ricavi (€60-100k)</td></tr>
+                                  <tr><td>Efficienza</td><td>Valutazione cessione asset non strategici, ottimizzazione superficie magazzino</td><td>Incremento efficienza capitale</td><td class="text-success">Target turnover > 1,0</td></tr>
+                              </tbody>
+                          </table>
+                      </div>
+                       <p class="small mt-3 text-muted">L'implementazione di queste azioni potrebbe liberare liquidità per circa €300.000 e migliorare significativamente il profilo di rischio finanziario dell'azienda.</p>
+                  </div>
+             </div>
+
+            <div class="card summary-card mb-4 report-section">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-check-circle text-primary me-2"></i>Conclusioni Analisi Economica e Benchmark (Blue Marlin S.r.l.)</h5>
+                     <p>Blue Marlin S.r.l. presenta un <strong>paradosso operativo</strong>: eccellente redditività economica combinata con grave crisi di liquidità. L'azienda mostra un <strong>EBITDA margin anomalo</strong> (18,27%) con un incremento del 322,37% rispetto all'anno precedente, a fronte di ricavi in leggero calo (-0,32%).</p>
+                     <p>La strategia premium ha dimostrato la sua validità in termini di marginalità, ma deve essere supportata da un'infrastruttura operativa e finanziaria adeguata. Il successo del piano di risanamento dipenderà dalla capacità di normalizzare rapidamente il ciclo del circolante (282 giorni), generare cash flow operativo positivo, ridurre progressivamente il leverage finanziario e mantenere il posizionamento premium incrementando i volumi.</p>
+                </div>
+            </div>
+
+
+            <!-- ================================================================ -->
+            <!-- FINE CONTENUTO SPECIFICO PARTE 2 -->
+            <!-- ================================================================ -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard V2 (Nessuna modifica necessaria) -->
+        <footer class="footer no-print"> <div class="container-fluid px-4"> <div class="row align-items-center"> <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div> <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a> <img src="../assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2"> </div> </div> </div> </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/charts_config.js"></script>
+    <script src="../js/report_init.js"></script>
+     <script>
+        document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+        document.getElementById('currentYearFooterReport').textContent = new Date().getFullYear();
+
+         // Script aggiornamento badge IRP header
+         document.addEventListener('DOMContentLoaded', function() {
+             const irpScoreValue = 56.32;
+             const irpHeaderBadge = document.getElementById('irp-header-badge');
+             if(irpHeaderBadge) {
+                 let badgeClass = 'bg-warning text-dark';
+                 if (irpScoreValue >= 71) badgeClass = 'bg-success';
+                 else if (irpScoreValue < 51) badgeClass = 'bg-danger';
+                 irpHeaderBadge.className = `badge ${badgeClass} me-3`;
+                 irpHeaderBadge.textContent = `IRP: ${irpScoreValue.toFixed(1)}`;
+             }
+
+              // Ensure logout function is defined
+             if (typeof logout !== 'function') {
+                 window.logout = function() {
+                    console.log("Logout action triggered (placeholder)");
+                }
+             }
+             // Ensure print function is defined
+             if (typeof printDocument !== 'function') {
+                window.printDocument = function() {
+                    window.print();
+                }
+             }
+         });
+    </script>
+     <!-- Script ChatNode -->
+<scan-chat data-bot-id="be3888cc-0096-4c66-a760-00e22a793edc"></scan-chat>
+<script src="../js/bundle.js"></script>
+</body>
+</html>

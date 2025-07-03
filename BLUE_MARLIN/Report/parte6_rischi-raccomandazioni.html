@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Rischi e Raccomandazioni - Blue Marlin S.R.L. | SCAN V17 - No Charts</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+    <style>
+        /* Copia/Incolla stili V17 qui... (rimuovendo eventuali stili specifici per i grafici rimossi se non servono più) */
+         .timeline-irp { list-style: none; padding-left: 0; position: relative; }
+        .timeline-irp::before { content: ''; position: absolute; left: 18px; top: 0; bottom: 0; width: 2px; background-color: var(--secondary); }
+        .timeline-irp-item { position: relative; margin-bottom: 1.5rem; padding-left: 45px; }
+        .timeline-irp-badge { position: absolute; left: 0; top: 0; width: 38px; height: 38px; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white; box-shadow: 0 0 5px rgba(0,0,0,0.2); font-size: 0.75rem;}
+        .timeline-irp-badge.priority-high { background-color: var(--danger); }
+        .timeline-irp-badge.priority-medium { background-color: var(--warning); }
+        .timeline-irp-badge.priority-low { background-color: var(--success); }
+        .timeline-irp-content { background-color: var(--white); padding: 1rem; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: var(--shadow); }
+        .timeline-irp-content h6 { color: var(--primary); margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center; font-size: 1rem;}
+        .timeline-irp-content ul { margin-bottom: 0; padding-left: 1.2rem; font-size: 0.85rem; }
+        .kpi-target-table td, .kpi-target-table th { font-size: 0.8rem; padding: 0.4rem 0.5rem;}
+        .kpi-target-table .current-value { color: var(--text-secondary); font-style: italic; display: block; font-size: 0.75rem;}
+        .kpi-target-table .target-value { font-weight: bold; }
+         .kpi-target-table .value-ok { color: var(--success); }
+         .kpi-target-table .value-warn { color: var(--warning); }
+         .kpi-target-table .value-crit { color: var(--danger); }
+        .revision-section .list-group-item { background-color: transparent; border: none; padding: 0.5rem 0; display: flex; align-items: center; font-size: 0.9rem;}
+        .revision-section .list-group-item i { width: 20px; text-align: center; margin-right: 10px; color: var(--primary); }
+        .alerting-section .alert { padding: 0.75rem 1rem; margin-bottom: 0.5rem; font-size: 0.85rem; display: flex; align-items: center;}
+        .alerting-section .alert i { margin-right: 8px; }
+        .alert.alert-liquidita, .alert.alert-circolante { border-left: 4px solid var(--danger) !important; background-color: #f8d7da !important;}
+        .alert.alert-covenant, .alert.alert-be, .alert.alert-costi { border-left: 4px solid var(--warning) !important; background-color: #fff3cd !important;}
+         .accordion-button i { margin-right: 10px; }
+         #headingCirc button i { color: var(--danger); }
+         #headingFin button i { color: var(--warning); }
+         #headingOp button i { color: var(--warning); }
+          :root {
+            --primary: #191970; --secondary: #4a69bd; --success: #4CAF50;
+            --warning: #FFC107; --danger: #F44336; --info: #0dcaf0;
+            --light: #f8f9fa; --dark: #343a40; --white: #ffffff;
+            --text-primary: #212529; --text-secondary: #6c757d;
+            --card-bg: var(--white); --card-border: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        html, body { height: 100%; overflow-x: hidden; font-family: 'Titillium Web', sans-serif; background-color: #f4f8fb; }
+        body { display: flex; }
+        .sidebar { width: 250px; background-color: var(--primary); color: #e0e0e0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1031; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: width 0.3s ease; overflow-y: auto; }
+        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; }
+        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; }
+        .dashboard-container { padding: 30px; flex-grow: 1; width: 100%; }
+        .footer { background-color: var(--primary); color: rgba(255, 255, 255, 0.7); padding: 15px 30px; font-size: 0.85rem; margin-top: auto; flex-shrink: 0; width: 100%; }
+        .footer img { max-height: 20px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; vertical-align: middle;}
+        .sidebar-header { padding: 10px 20px; margin-bottom: 20px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-header img { max-height: 40px; } .sidebar-header h5 { color: var(--white); margin-top: 10px; font-size: 1.1rem; font-weight: 600; }
+        .sidebar-nav { list-style: none; padding: 0; } .sidebar-nav .nav-item { margin: 0; }
+        .sidebar-nav .nav-link { color: #e0e0e0; padding: 12px 20px; display: flex; align-items: center; font-size: 0.95rem; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s ease; }
+        .sidebar-nav .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--white); border-left-color: var(--warning); }
+        .sidebar-nav .nav-link.active { background-color: rgba(255, 255, 255, 0.1); color: var(--white); font-weight: 600; border-left-color: var(--white); }
+        .sidebar-nav .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 1rem; }
+        .sidebar-nav .nav-title { padding: 10px 20px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; }
+        .sidebar-footer { margin-top: auto; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; text-align: left; }
+        .section-title { color: var(--primary); font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--secondary); font-size: 1.75rem; display: flex; align-items: center; } .section-title i { margin-right: 10px; }
+        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; }
+        .dashboard-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .card-title-small { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .table { border: 1px solid var(--card-border); margin-bottom: 1rem; } .table thead th { background-color: var(--light); color: var(--primary); font-weight: 600; border-bottom: 2px solid var(--primary); font-size: 0.9rem; white-space: nowrap; } .table-hover tbody tr:hover { background-color: #eef2f7; } .table td, .table th { vertical-align: middle; padding: 0.6rem 0.75rem; font-size: 0.9rem;} .value-highlight { font-weight: 600; color: var(--primary); } .text-end { text-align: right !important;} .text-success { color: var(--success) !important; } .text-danger { color: var(--danger) !important; } .text-warning { color: var(--warning) !important; } .text-secondary { color: var(--text-secondary) !important; }
+        .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid; } .alert-box h5 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600;} .alert-box ul { padding-left: 20px; margin-bottom: 0; font-size: 0.9rem;} .alert-box.alert-success { background-color: #d1e7dd; border-color: #a3cfbb; color: #0a3622; } .alert-box.alert-warning { background-color: #fff3cd; border-color: #ffda6a; color: #664d03; } .alert-box.alert-danger { background-color: #f8d7da; border-color: #f1aeb5; color: #58151c; } .alert-box.alert-info { background-color: #cff4fc; border-color: #9eeaf9; color: #055160; }
+        .status-badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; border-radius: .375rem; color: white; display: inline-block; } .status-badge.bg-success { background-color: var(--success) !important; } .status-badge.bg-warning { background-color: var(--warning) !important; color: var(--dark) !important;} .status-badge.bg-danger { background-color: var(--danger) !important; } .status-badge.bg-info { background-color: var(--info) !important; color: var(--dark) !important;}
+        .chart-container { height: 300px; margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
+        .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: white; margin-right: 12px; font-size: 0.9rem; flex-shrink: 0; }
+        .bg-icon-success { background-color: var(--success); } .bg-icon-warning { background-color: var(--warning); } .bg-icon-danger { background-color: var(--danger); } .bg-icon-info { background-color: #4f6d7a; } .bg-icon-primary { background-color: var(--primary); } .bg-icon-secondary { background-color: var(--secondary); }
+        .action-table td:nth-child(1) { width: 30%; white-space: nowrap; } .action-table td:nth-child(2) { width: 40%; } .action-table td:nth-child(3) { width: 20%; } .action-table td:nth-child(4) { width: 10%; text-align: center;}
+         @media (max-width: 991.98px) { .sidebar { width: 0; border: none; box-shadow: none;} .main-wrapper { margin-left: 0; width: 100%; padding-top: 56px; } .dashboard-header { left: 0; width: 100%; min-height: 56px; padding: 5px 15px;} .header-title h5 { font-size: 1rem;} .header-title p { font-size: 0.75rem;} .dashboard-container { padding: 15px;} .footer { padding: 10px 15px;} }
+         @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } }
+    </style>
+    <!-- Chart.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+</head>
+<body>
+
+     <!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>Blue Marlin S.R.L.</h5> </div>
+        <ul class="sidebar-nav flex-grow-1">
+            <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+            <li class="nav-title">Analisi Dettagliata</li>
+            <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte5_circolante_flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+            <li class="nav-title">Approfondimenti</li>
+            <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+        </ul>
+        <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+    </aside>
+
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                <h5 class="mb-0">Report Dettagliato: Analisi Rischi e Raccomandazioni</h5>
+                <p class="mb-0">Blue Marlin S.R.L. | <span class="report-date">31 Dicembre 2024</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <span id="irp-header-badge" class="badge me-3"></span>
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Blue Marlin S.R.L. </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">Blue Marlin S.R.L.</span></h1>
+            <p class="text-center mb-0">Report Dettagliato: Analisi Rischi e Raccomandazioni | <span class="report-date">31 Dicembre 2024</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Specifico del Report -->
+        <div class="dashboard-container">
+
+            <!-- ================================================================ -->
+            <!-- CONTENUTO SPECIFICO PARTE 6 - V16 - Updated for Blue Marlin - NO CHARTS -->
+            <!-- ================================================================ -->
+
+             <h2 class="section-title" id="risk-analysis"><i class="fas fa-exclamation-triangle me-2"></i>6. ANALISI DEI RISCHI</h2>
+
+            <!-- Sezioni 6.1 a 6.5 presentate in card standard -->
+            <div class="card mb-4 report-section">
+                <div class="card-header card-header-primary"><h5 class="mb-0">6.1 Indicatori di Rischio</h5></div>
+                <div class="card-body">
+                    <p>L'analisi degli indicatori di rischio evidenzia una configurazione multidimensionale di criticità che richiede un'interpretazione integrata per comprendere l'effettivo profilo di rischio aziendale.</p>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-hover" id="table_6_1_1">
+                           <thead class="table-light"><tr><th>Indicatore</th><th class="text-end">Valore Rilevato</th><th>Soglia Critica</th><th>Status</th><th>Implicazioni</th></tr></thead>
+                           <tbody>
+                               <tr><td>Leanus Score</td><td class="text-end">2,77 (4-Critico)</td><td>< 3,0</td><td>❌ Critico</td><td>Classificazione "STABLE" ma con gravi squilibri finanziari</td></tr>
+                               <tr><td>Variazione Ricavi</td><td class="text-end">-0,32%</td><td>< 0%</td><td>⚠️ Attenzione</td><td>Stagnazione in un contesto di costi crescenti</td></tr>
+                               <tr><td>EBITDA Margin</td><td class="text-end">18,27%</td><td>< 8%</td><td>✅ Ottimo</td><td>Marginalità apparentemente eccellente ma anomala</td></tr>
+                               <tr><td>ROS (EBIT/Ricavi)</td><td class="text-end">14,55%</td><td>< 5%</td><td>✅ Ottimo</td><td>Redditività operativa apparentemente eccellente</td></tr>
+                               <tr><td>Copertura Immobilizzazioni</td><td class="text-end">0,54</td><td>< 0,7</td><td>❌ Critico</td><td>Grave squilibrio patrimoniale</td></tr>
+                               <tr><td>Leva Finanziaria (D/E)</td><td class="text-end">2,45</td><td>> 2,0</td><td>❌ Critico</td><td>Sottocapitalizzazione e dipendenza da capitale di terzi</td></tr>
+                               <tr><td>Liquidità/Ricavi</td><td class="text-end">5,72%</td><td>< 3%</td><td>✅ Buono</td><td>Liquidità apparentemente adeguata ma derivante da nuovo debito</td></tr>
+                               <tr><td>Cash Flow Operativo/Ricavi</td><td class="text-end">-6,99%</td><td>< 0%</td><td>❌ Critico</td><td>L'azienda brucia cassa nella gestione operativa</td></tr>
+                           </tbody>
+                        </table>
+                    </div>
+                    <p class="small mt-3"><strong>Nota metodologica critica</strong>: La classificazione degli indicatori evidenzia un paradosso allarmante: eccellente redditività economica (EBITDA 18,27%, ROS 14,55%) combinata con cash flow operativo negativo (-6,99%). Questa incongruenza suggerisce possibili anomalie contabili nella rappresentazione dei risultati economici.</p>
+                </div>
+            </div>
+
+             <div class="card mb-4 report-section">
+                <div class="card-header card-header-secondary"><h5 class="mb-0">6.2 Z-Score e Rating</h5></div>
+                 <div class="card-body">
+                     <!-- Rimossa row, la tabella occupa tutta la larghezza -->
+                     <div class="small">
+                         <h6>6.2.1 Z-Score di Altman</h6>
+                         <p>Il valore di Z-Score pari a <strong>2,20</strong> colloca l'azienda nella <strong>zona grigia</strong> (range 1,81-2,99 per non quotate), suggerendo una situazione di incertezza sulla solvibilità futura.</p>
+                         
+                         <h6>Decomposizione analitica dello Z-Score:</h6>
+                         <div class="table-responsive">
+                             <table class="table table-sm table-striped">
+                                 <thead class="table-light"><tr><th>Componente</th><th>Formula</th><th class="text-end">Valore Stimato</th><th class="text-end">Contributo</th></tr></thead>
+                                 <tbody>
+                                     <tr><td>X₁ (Working Capital/Total Assets)</td><td>CCN/Totale Attivo</td><td class="text-end value-highlight">0,382</td><td class="text-end">0,274</td></tr>
+                                     <tr><td>X₂ (Retained Earnings/Total Assets)</td><td>Utili non distribuiti/Totale Attivo</td><td class="text-end value-highlight">0,192</td><td class="text-end">0,163</td></tr>
+                                     <tr><td>X₃ (EBIT/Total Assets)</td><td>EBIT/Totale Attivo</td><td class="text-end value-highlight">0,077</td><td class="text-end">0,239</td></tr>
+                                     <tr><td>X₄ (Book Value Equity/Total Liabilities)</td><td>PN/Passività totali</td><td class="text-end value-highlight">0,271</td><td class="text-end">0,114</td></tr>
+                                     <tr><td>X₅ (Sales/Total Assets)</td><td>Ricavi/Totale Attivo</td><td class="text-end value-highlight">0,529</td><td class="text-end">0,529</td></tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         
+                         <h6>6.2.2 Probabilità di Default e Rating</h6>
+                         <p>La <strong>probabilità di default del 9,43%</strong> secondo il modello MCC posiziona l'azienda nella <strong>Fascia 4</strong>, corrispondente a un profilo di rischio significativo. Questo valore conferma le criticità strutturali evidenziate dagli altri indicatori.</p>
+                         
+                         <h6>6.2.3 Leanus Score</h6>
+                         <p>Il <strong>Leanus Score di 2,77</strong> con classificazione <strong>"4-Critico"</strong> (scala -40 a +40) conferma un profilo di rischio elevato, suggerendo disequilibri economico-finanziari significativi che richiedono interventi correttivi immediati.</p>
+                         
+                         <p><strong>Analisi critica della metodologia:</strong> Si rileva una potenziale incongruenza tra lo Z-Score in zona grigia (2,20) e gli indicatori di redditività apparentemente eccellenti, suggerendo che il modello di Altman potrebbe non catturare adeguatamente le anomalie contabili presenti.</p>
+                     </div>
+                 </div>
+             </div>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header card-header-primary"><h5 class="mb-0">6.3 Red Flags e Segnali d'Allarme</h5></div>
+                  <div class="card-body">
+                      <p>L'analisi identifica molteplici segnali d'allarme che configurano un quadro di rischio sistemico:</p>
+                      <div class="table-responsive">
+                          <table class="table table-sm table-hover small">
+                             <thead class="table-light"><tr><th>Area</th><th>Red Flag Identificato</th><th>Evidenza Quantitativa</th><th>Impatto Potenziale</th></tr></thead>
+                              <tbody>
+                                  <tr><td>Cash Flow</td><td>Cash Flow Operativo negativo</td><td>-€85.496 (-6,99% sui ricavi)</td><td>Insostenibilità operativa, dipendenza da nuovo debito</td></tr>
+                                  <tr><td>Magazzino</td><td>Rotazione anomala</td><td>DIO = 292 giorni</td><td>Probabile obsolescenza, sovrastima valore, immobilizzo capitale</td></tr>
+                                  <tr><td>Crediti Clienti</td><td>Incremento tempi incasso</td><td>DSO = 120 giorni (+41,18%)</td><td>Rischio insolvenze, tensione finanziaria</td></tr>
+                                  <tr><td>Redditività</td><td>Anomalia EBITDA vs Ricavi</td><td>EBITDA +322,37% vs Ricavi -0,32%</td><td>Possibile manipolazione contabile, capitalizzazione costi</td></tr>
+                                  <tr><td>Indebitamento</td><td>PFN/EBITDA elevato</td><td>5,11x (soglia critica > 4x)</td><td>Insostenibilità del debito nel medio termine</td></tr>
+                                  <tr><td>Sostenibilità</td><td>DSCR negativo</td><td>-0,082</td><td>Incapacità di servire il debito con i flussi operativi</td></tr>
+                              </tbody>
+                          </table>
+                      </div>
+                      
+                      <h6 class="mt-3">Anomalie rilevate nella riclassificazione:</h6>
+                      <ul>
+                          <li><strong>Variazione rimanenze</strong>: +€39.924 (+8,5%) a fronte di ricavi in calo (-0,32%), suggerendo possibile capitalizzazione di costi operativi</li>
+                          <li><strong>Oneri finanziari</strong>: €48.365 rappresentano il 4,0% dei ricavi, un valore elevato che erode significativamente la redditività netta</li>
+                          <li><strong>Ciclo del circolante</strong>: 282 giorni, un valore patologicamente elevato per il settore del commercio ittico, dove la deperibilità del prodotto dovrebbe imporre rotazioni molto più rapide</li>
+                      </ul>
+                  </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">6.4 Analisi di Potenziali Manipolazioni Contabili</h5></div>
+                 <div class="card-body small">
+                     <p>L'analisi forense dei dati contabili evidenzia alcune anomalie che richiedono approfondimento:</p>
+                     
+                     <h6>6.4.1 Indicatori di Window Dressing</h6>
+                     <table class="table table-sm">
+                         <thead class="table-light"><tr><th>Indicatore</th><th>Valore/Trend</th><th>Benchmark</th><th>Segnale di Allarme</th></tr></thead>
+                          <tbody>
+                              <tr><td>EBITDA Margin</td><td>Aumento da 4,3% a 18,27% (+322,37%)</td><td>Settore: 8-12%</td><td>⚠️ Miglioramento anomalo in contesto di stagnazione</td></tr>
+                              <tr><td>Variazione Rimanenze</td><td>+€39.924 (+8,5%)</td><td>Ricavi: -0,32%</td><td>⚠️ Accumulo scorte non giustificato</td></tr>
+                              <tr><td>Giorni Magazzino</td><td>292 giorni</td><td>Settore ittico: 30-60 giorni</td><td>⚠️ Completamente fuori scala per prodotti deperibili</td></tr>
+                              <tr><td>Capitalizzazioni</td><td>Sospette nelle rimanenze</td><td>-</td><td>⚠️ Probabile capitalizzazione di costi operativi</td></tr>
+                          </tbody>
+                     </table>
+                     
+                     <p><strong>Valutazione della qualità degli utili:</strong></p>
+                     <div class="alert alert-warning p-2">
+                         <strong>Accrual Ratio</strong> = (Utile - Cash Flow Operativo) / Totale Attivo = (€143.390 - (-€85.496)) / €2.314.197 = 9,89%
+                     </div>
+                     <p>Il valore positivo e significativamente elevato indica che l'utile contabile supera ampiamente il cash flow operativo (che è negativo), suggerendo una bassa qualità degli earnings e possibili manipolazioni contabili.</p>
+                     
+                     <h6>6.4.2 Test di Congruità delle Componenti</h6>
+                     <p>Il test di congruità delle componenti del capitale circolante evidenzia:</p>
+                     <ul>
+                         <li><strong>Rimanenze</strong>: Eccesso di 232 giorni rispetto allo standard di settore, equivalente a circa €404.840 di capitale immobilizzato</li>
+                         <li><strong>Crediti clienti</strong>: Eccesso di 30 giorni rispetto allo standard di settore, equivalente a circa €101.970 di liquidità non incassata</li>
+                         <li><strong>Debiti fornitori</strong>: Eccesso di 40 giorni rispetto allo standard di settore, equivalente a circa €69.800 di finanziamento dai fornitori</li>
+                     </ul>
+                     <p>Questa analisi conferma gravi inefficienze nella gestione del capitale circolante, con particolare criticità nella gestione del magazzino.</p>
+                 </div>
+            </div>
+
+            <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">6.5 Analisi di Sensitività</h5></div>
+                 <div class="card-body">
+                     <p>L'analisi di sensitività sui parametri critici evidenzia una resilienza estremamente limitata:</p>
+                     <div class="small">
+                         <div class="table-responsive">
+                              <table class="table table-sm table-striped">
+                                 <thead class="table-light"><tr><th>Parametro</th><th>Impatto su EBIT = 0</th><th>Resilienza</th><th>Valutazione</th></tr></thead>
+                                 <tbody>
+                                     <tr><td>Ricavi</td><td>-41,14%</td><td>Apparentemente buona</td><td>Margine di sicurezza sovrastimato per EBIT anomalo</td></tr>
+                                     <tr><td>Costi Fissi</td><td>+85,10%</td><td>Apparentemente buona</td><td>Margine di sicurezza sovrastimato per EBIT anomalo</td></tr>
+                                     <tr><td>Crediti Clienti (liquidità zero)</td><td>+21 giorni</td><td>Critica</td><td>Bastano 21 giorni di ritardo negli incassi per azzerare la liquidità</td></tr>
+                                     <tr><td>Rimanenze (PN zero)</td><td>-283 giorni</td><td>Apparentemente buona</td><td>Valore rimanenze probabilmente già sovrastimato</td></tr>
+                                     <tr><td>Debiti Fornitori (liquidità zero)</td><td>-27 giorni</td><td>Critica</td><td>Riduzione di 27 giorni nei termini di pagamento azzererebbe la liquidità</td></tr>
+                                 </tbody>
+                              </table>
+                         </div>
+                         <p class="alert alert-warning small mt-3 p-2 mb-0"><i class="fas fa-exclamation-triangle me-1"></i><strong>Valutazione critica</strong>: L'azienda opera con margini di sicurezza estremamente ridotti sulla liquidità. La resilienza apparentemente buona su ricavi e costi fissi è probabilmente sovrastimata a causa di un EBIT artificialmente elevato. La vera vulnerabilità è nella gestione del capitale circolante, dove anche piccole variazioni nei tempi di incasso o pagamento potrebbero provocare una crisi di liquidità.</p>
+                     </div>
+                 </div>
+            </div>
+
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">6.6 Risultati Stress Test</h5></div>
+                 <div class="card-body">
+                    <p>I risultati degli stress test confermano l'estrema vulnerabilità della struttura economico-finanziaria:</p>
+                    <div class="table-responsive small">
+                        <table class="table table-sm table-hover">
+                            <thead class="table-light"><tr><th>Stress Test</th><th>Superato</th><th>Valore Critico</th><th>Valore Attuale</th><th>Margine di Sicurezza</th></tr></thead>
+                            <tbody>
+                                <tr><td>EBIT < 0</td><td>✓</td><td>0 €</td><td>178.054 €</td><td>Positivo (ma sospetto)</td></tr>
+                                <tr><td>Utile < 0</td><td>✓</td><td>0 €</td><td>143.390 €</td><td>Positivo (ma sospetto)</td></tr>
+                                <tr><td>GG Crediti Clienti > 120</td><td>✓</td><td>> 120 gg</td><td>120 gg</td><td>Nessuno (è sul limite)</td></tr>
+                                <tr><td>GG Debiti Fornitori > 120</td><td>❌</td><td>> 120 gg</td><td>130 gg</td><td>Violato</td></tr>
+                                <tr><td>GG Rimanenze > 120</td><td>❌</td><td>> 120 gg</td><td>292 gg</td><td>Violato ampiamente</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <p class="small mt-3 mb-1"><strong>Valutazione critica:</strong> L'azienda ha superato solo 3 test su 5, con i giorni di magazzino (292) e i giorni fornitori (130) che violano ampiamente le soglie di normalità. Il fatto che i giorni clienti siano esattamente sulla soglia di 120 giorni è un ulteriore segnale di allarme.</p>
+                     <p class="small mb-0"><strong>Criticità nei flussi di cassa:</strong></p>
+                     <ul class="small">
+                         <li><strong>Cash Flow Operativo negativo</strong>: -€85.496 (-6,99% sui ricavi)</li>
+                         <li><strong>DSCR (Debt Service Coverage Ratio) negativo</strong>: -0,082, indicativo di insolvenza tecnica</li>
+                         <li><strong>Incremento dell'indebitamento</strong>: +€146.300 nel periodo, utilizzato per finanziare le perdite operative</li>
+                         <li><strong>Tasso di conversione EBITDA-Cash negativo</strong>: -38,2%, indicativo di gravi inefficienze nella gestione del capitale circolante</li>
+                     </ul>
+                 </div>
+             </div>
+
+
+             <h2 class="section-title mt-5" id="recommendations"><i class="fas fa-lightbulb me-2"></i>7. RACCOMANDAZIONI</h2>
+
+            <!-- 7.1 Piano d'Azione Operativo -->
+            <div class="card mb-4 report-section">
+                 <div class="card-header card-header-primary"><h5 class="mb-0">7.1 Piano d'Azione e Raccomandazioni Operative</h5></div>
+                  <div class="card-body">
+                     <h6>7.1.1 Interventi Immediati (0-30 giorni)</h6>
+                     <div class="table-responsive small">
+                         <table class="table table-sm table-hover action-table" id="table_7_1_1">
+                             <thead class="table-light"><tr><th>Area</th><th>Azione</th><th>Responsabile</th><th>Target</th><th>Impatto Atteso</th></tr></thead>
+                             <tbody>
+                                 <tr><td>Magazzino</td><td>Audit fisico immediato e piano di smaltimento scorte obsolete</td><td>Resp. Logistica</td><td>-€150.000</td><td>Liberazione liquidità e verifica valore reale</td></tr>
+                                 <tr><td>Crediti</td><td>Task force recupero crediti con focus su scaduti > 90 giorni</td><td>Credit Manager</td><td>€100.000</td><td>Generazione liquidità immediata</td></tr>
+                                 <tr><td>Fornitori</td><td>Comunicazione preventiva e piano di rientro sostenibile</td><td>Procurement</td><td>Tutti strategici</td><td>Prevenzione blocco forniture</td></tr>
+                                 <tr><td>Banche</td><td>Richiesta standstill e moratoria su rimborsi capitale</td><td>CFO</td><td>Tutte le linee</td><td>Respiro finanziario 6-12 mesi</td></tr>
+                                 <tr><td>Governance</td><td>Costituzione comitato di crisi con incontri quotidiani</td><td>CEO</td><td>Daily meeting</td><td>Gestione emergenziale tesoreria</td></tr>
+                             </tbody>
+                         </table>
+                     </div>
+                     
+                     <h6 class="mt-4">7.1.2 Azioni a Breve Termine (1-6 mesi)</h6>
+                     <div class="table-responsive small">
+                         <table class="table table-sm table-hover action-table">
+                             <thead class="table-light"><tr><th>Intervento</th><th>Dettaglio Operativo</th><th>Investimento</th><th>Saving/Beneficio</th><th>ROI</th></tr></thead>
+                             <tbody>
+                                 <tr><td>Rettifica contabile</td><td>Svalutazione straordinaria magazzino e crediti</td><td>€30.000 (audit)</td><td>Trasparenza e veridicità bilancio</td><td>Qualitativo</td></tr>
+                                 <tr><td>Ricapitalizzazione</td><td>Aumento capitale minimo €500.000</td><td>€500.000</td><td>Riequilibrio patrimoniale e liquidità</td><td>Salvaguardia continuità</td></tr>
+                                 <tr><td>Working Capital</td><td>Factoring pro-soluto 50% crediti</td><td>€25.000 (setup)</td><td>€200.000 liquidità</td><td>800%</td></tr>
+                                 <tr><td>Ristrutturazione debito</td><td>Consolidamento BT in MLT, grace period 12 mesi</td><td>€40.000 (advisory)</td><td>€150.000/anno servizio debito</td><td>375%</td></tr>
+                             </tbody>
+                         </table>
+                     </div>
+                  </div>
+            </div>
+
+            <!-- 7.3 Piano d'Azione per Timeframe -->
+              <div class="card mb-4 report-section">
+                   <div class="card-header card-header-secondary"><h5 class="mb-0">7.3 Piano d'Azione per Timeframe</h5></div>
+                   <div class="card-body">
+                      <h6>Timeline Integrata degli Interventi</h6>
+                      <ul class="timeline-irp">
+                          <li class="timeline-irp-item"> 
+                              <div class="timeline-irp-badge priority-high">0/30</div> 
+                              <div class="timeline-irp-content"> 
+                                  <h6>Emergenza <span class="badge bg-danger float-end">Alta</span></h6> 
+                                  <ul class="small">
+                                      <li>Audit fisico immediato del magazzino</li>
+                                      <li>Task force recupero crediti scaduti</li>
+                                      <li>Freeze totale spese non essenziali</li>
+                                      <li>Comitato di crisi con incontri quotidiani</li>
+                                  </ul> 
+                              </div> 
+                          </li>
+                          <li class="timeline-irp-item"> 
+                              <div class="timeline-irp-badge priority-medium">1/3m</div> 
+                              <div class="timeline-irp-content"> 
+                                  <h6>Stabilizzazione <span class="badge bg-warning text-dark float-end">Media</span></h6> 
+                                  <ul class="small">
+                                      <li>Rettifiche contabili: svalutazione magazzino e crediti</li>
+                                      <li>Negoziazione standstill con sistema bancario</li>
+                                      <li>Piano di rientro con fornitori strategici</li>
+                                      <li>Ricapitalizzazione d'urgenza (€500k)</li>
+                                  </ul> 
+                              </div> 
+                          </li>
+                          <li class="timeline-irp-item"> 
+                              <div class="timeline-irp-badge priority-medium">3/12m</div> 
+                              <div class="timeline-irp-content"> 
+                                  <h6>Ristrutturazione <span class="badge bg-warning text-dark float-end">Media</span></h6> 
+                                  <ul class="small">
+                                      <li>Ristrutturazione complessiva del debito</li>
+                                      <li>Revisione modello di business e mix prodotti</li>
+                                      <li>Implementazione sistema di controllo di gestione</li>
+                                      <li>Ottimizzazione processi logistici e supply chain</li>
+                                  </ul> 
+                              </div> 
+                          </li>
+                          <li class="timeline-irp-item"> 
+                              <div class="timeline-irp-badge priority-low">12/24m</div> 
+                              <div class="timeline-irp-content"> 
+                                  <h6>Rilancio <span class="badge bg-success float-end">Bassa</span></h6> 
+                                  <ul class="small">
+                                      <li>Sviluppo canali commerciali ad alto valore</li>
+                                      <li>Investimenti selettivi in automazione magazzino</li>
+                                      <li>Normalizzazione ratios finanziari</li>
+                                      <li>Implementazione sistema ERP integrato</li>
+                                  </ul> 
+                              </div> 
+                          </li>
+                       </ul>
+                   </div>
+              </div>
+
+            <!-- 7.4 Dashboard KPI Target -->
+             <div class="card mb-4 report-section">
+                 <div class="card-header card-header-primary"><h5 class="mb-0">7.4 Dashboard di Controllo con KPI Principali</h5></div>
+                  <div class="card-body">
+                     <p class="small">Sistema di Monitoraggio Integrato:</p>
+                      <div class="table-responsive">
+                         <table class="table table-sm table-bordered kpi-target-table">
+                            <thead class="table-light"><tr><th>KPI</th><th>Current</th><th>Target 3M</th><th>Target 12M</th><th>Frequenza</th><th>Owner</th></tr></thead>
+                            <tbody>
+                               <tr><td>Liquidità assoluta</td><td class="value-warn">€69.964</td><td>€150.000</td><td>€300.000</td><td>Giornaliera</td><td>Tesoriere</td></tr>
+                               <tr><td>DSCR rolling 6M</td><td class="value-crit">-0,082</td><td>0,80</td><td>1,20</td><td>Settimanale</td><td>CFO</td></tr>
+                               <tr><td>Cash Flow Operativo/Ricavi</td><td class="value-crit">-6,99%</td><td>0%</td><td>+8%</td><td>Mensile</td><td>Controller</td></tr>
+                               <tr><td>DSO (giorni crediti)</td><td class="value-crit">120 gg</td><td>90 gg</td><td>60 gg</td><td>Settimanale</td><td>Credit Manager</td></tr>
+                               <tr><td>DIO (giorni magazzino)</td><td class="value-crit">292 gg</td><td>180 gg</td><td>90 gg</td><td>Bisettimanale</td><td>Resp. Logistica</td></tr>
+                               <tr><td>EBITDA margin reale</td><td class="value-warn">8-10%*</td><td>10%</td><td>15%</td><td>Mensile</td><td>CFO</td></tr>
+                               <tr><td>PFN/EBITDA</td><td class="value-crit">5,11x</td><td>4,0x</td><td>3,0x</td><td>Mensile</td><td>CFO</td></tr>
+                            </tbody>
+                         </table>
+                      </div>
+                      <p class="small mt-2">* EBITDA margin stimato dopo le rettifiche contabili necessarie</p>
+                  </div>
+             </div>
+
+             <!-- 7.5 Frequenza Revisione e Alerting -->
+              <div class="card mb-4 report-section">
+                   <div class="card-header card-header-secondary"><h5 class="mb-0">7.5 Frequenza di Revisione e Sistema di Alerting</h5></div>
+                   <div class="card-body revision-list small">
+                      <h6>7.5.1 Protocollo di Monitoraggio Risk-Based</h6>
+                      <div class="table-responsive">
+                         <table class="table table-sm table-hover">
+                           <thead class="table-light"><tr><th>Livello Rischio</th><th>Indicatori</th><th>Frequenza</th><th>Escalation</th><th>Reporting</th></tr></thead>
+                            <tbody>
+                                <tr><td>Critico (current)</td><td>Liquidità, DSCR, Circolante</td><td>Real-time/Daily</td><td>CEO + Board immediate</td><td>Dashboard live</td></tr>
+                                <tr><td>Alto</td><td>Cash flow, margini reali</td><td>Bisettimanale</td><td>Management team 24h</td><td>Weekly summary</td></tr>
+                                <tr><td>Medio</td><td>Efficienza operativa</td><td>Mensile</td><td>Functional heads 48h</td><td>Monthly pack</td></tr>
+                                <tr><td>Basso</td><td>Strategic KPIs</td><td>Trimestrale</td><td>Standard reporting</td><td>Quarterly review</td></tr>
+                            </tbody>
+                         </table>
+                      </div>
+                      
+                      <h6 class="mt-4">7.5.2 Sistema di Early Warning Calibrato</h6>
+                      <div class="table-responsive">
+                         <table class="table table-sm table-hover">
+                           <thead class="table-light"><tr><th>Trigger</th><th>Soglia Alert</th><th>Azione Automatica</th><th>Responsabile</th></tr></thead>
+                            <tbody>
+                                <tr><td>Liquidità < €30k</td><td>Red alert</td><td>Freeze pagamenti non critici</td><td>Tesoriere → CFO</td></tr>
+                                <tr><td>Incassi settimanali < target</td><td>Orange alert</td><td>Intensificazione azioni recupero</td><td>Credit Manager → CFO</td></tr>
+                                <tr><td>Utilizzo fidi > 95%</td><td>Red alert</td><td>Attivazione funding emergenza</td><td>CFO → CEO</td></tr>
+                                <tr><td>Blocco fornitore strategico</td><td>Black alert</td><td>Attivazione protocollo crisi</td><td>CEO → Board</td></tr>
+                            </tbody>
+                         </table>
+                      </div>
+                  </div>
+              </div>
+
+             <!-- Tabella Riepilogativa Interventi Finali -->
+             <div class="card summary-card mb-4 report-section">
+                 <div class="card-header bg-danger text-white"><h5 class="mb-0"><i class="fas fa-exclamation-circle me-2"></i>CONCLUSIONI EXECUTIVE</h5></div>
+                 <div class="card-body">
+                     <p>L'analisi evidenzia una situazione di <strong>crisi finanziaria acuta mascherata da risultati economici apparentemente positivi</strong>. Il profilo di rischio "STABLE" identificato nel report Leanus è fuorviante rispetto alla reale situazione di grave squilibrio finanziario.</p>
+                     
+                     <h6>Priorità assolute:</h6>
+                     <ol>
+                         <li><strong>Rettifica delle anomalie contabili</strong> (in particolare rimanenze e costi capitalizzati)</li>
+                         <li><strong>Ricapitalizzazione urgente</strong> (minimo €500.000-700.000)</li>
+                         <li><strong>Negoziazione immediata con creditori</strong> (standstill e moratoria)</li>
+                         <li><strong>Gestione emergenziale della liquidità</strong> (comitato di crisi quotidiano)</li>
+                     </ol>
+                     
+                     <p>La sostenibilità del business richiede un'inversione radicale nella gestione del capitale circolante, con obiettivi prioritari:</p>
+                     <ul>
+                         <li><strong>Riduzione drastica giorni magazzino</strong>: Da 292 a 90 giorni (-€300.000 capitale immobilizzato)</li>
+                         <li><strong>Accelerazione incassi</strong>: Da 120 a 60 giorni (-€200.000 capitale immobilizzato)</li>
+                         <li><strong>Generazione cash flow operativo positivo</strong>: Da -7% a +8% dei ricavi</li>
+                     </ul>
+                     
+                     <p class="mb-0">BLUE MARLIN S.R.L. si trova in uno stato di <strong>crisi conclamata</strong>, mascherata da una rappresentazione contabile non veritiera. Le "ottimizzazioni" proposte non sono opzionali, ma rappresentano le <strong>azioni minime e necessarie per tentare di salvare l'azienda dal fallimento</strong>.</p>
+                 </div>
+            </div>
+
+
+            <!-- ================================================================ -->
+            <!-- FINE CONTENUTO SPECIFICO PARTE 6 -->
+            <!-- ================================================================ -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard V2 (Corretto) -->
+        <footer class="footer no-print"> <div class="container-fluid px-4"> <div class="row align-items-center"> <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div> <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a> <img src="../assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2"> </div> </div> </div> </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js Library è già nell'HEAD -->
+
+    <!-- ### START SCRIPT JS EMBEDDED ALL-IN-ONE ### -->
+    <script>
+        // ======================================
+        // HELPER FUNCTIONS
+        // ======================================
+        function formatCurrency(value, decimals = 0) {
+            if (isNaN(value)) return value;
+            return new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR', minimumFractionDigits: decimals, maximumFractionDigits: decimals }).format(value);
+        }
+
+        function formatPercentage(value) {
+             if (isNaN(value)) return value;
+             return new Intl.NumberFormat('it-IT', { style: 'decimal', minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(value) + '%';
+         }
+
+        /**
+         * Initializes a Chart.js chart on a given canvas ID.
+         * Destroys any existing chart on the same canvas before creating a new one.
+         * Uses Chart.getChart() for robustness.
+         */
+        function initChart(canvasId, type, data, options) {
+             const canvas = document.getElementById(canvasId);
+             if (!canvas) { console.error(`Canvas element with ID '${canvasId}' not found.`); return null; }
+             const ctx = canvas.getContext('2d');
+             const existingChart = Chart.getChart(canvasId);
+             if (existingChart) {
+                 try { existingChart.destroy(); } catch(e) { console.warn(`Could not destroy previous chart instance for ${canvasId}: ${e}`);}
+             }
+             ctx.clearRect(0, 0, canvas.width, canvas.height);
+             if (!data || !data.labels || !data.datasets) {
+                  ctx.fillStyle = '#dc3545'; ctx.font = '14px "Titillium Web", sans-serif'; ctx.textAlign = 'center';
+                  ctx.fillText('Errore: Dati non disponibili.', canvas.width / 2, canvas.height / 2);
+                  console.error(`Dati non validi forniti a initChart per ${canvasId}`);
+                  return null;
+              }
+             try {
+                 const newChart = new Chart(ctx, { type: type, data: data, options: options });
+                 return newChart;
+             } catch (error) {
+                  console.error(`Errore durante la creazione del grafico ${canvasId}:`, error);
+                  ctx.fillStyle = '#dc3545'; ctx.font = '14px "Titillium Web", sans-serif'; ctx.textAlign = 'center';
+                  const errorMessage = error.message && typeof error.message === 'string' ? (error.message.length > 100 ? error.message.substring(0, 97) + '...' : error.message) : 'Errore sconosciuto';
+                  ctx.fillText(`Errore grafico: ${errorMessage}`, canvas.width / 2, canvas.height / 2);
+                 return null;
+             }
+         }
+
+        // ======================================
+        // ALL CHART DATA (Blue Marlin PARTE 6) - Definite qui
+        // ======================================
+         const zscoreData = {
+             labels: ["Z-Score 2024"],
+             datasets: [
+                 { label: "Z-Score", data: [2.20], backgroundColor: "rgba(255, 193, 7, 0.7)", borderColor: "rgba(255, 193, 7, 1)", borderWidth: 1, barPercentage: 0.4, order: 1 },
+                 { label: "Soglia Sicurezza (>2.99)", data: [2.99], borderColor: "rgba(77, 140, 87, 1)", borderDash: [5, 5], fill: false, pointRadius: 0, borderWidth: 2, type: 'line', order: 0 },
+                 { label: "Soglia Rischio (<1.81)", data: [1.81], borderColor: "rgba(214, 34, 70, 1)", borderDash: [5, 5], fill: false, pointRadius: 0, borderWidth: 2, type: 'line', order: 0 }
+             ]
+         };
+
+         const sensitivityData = {
+              labels: ["Ricavi (%)", "Costi Materie Prime (%)", "Costo Personale (%)", "Tassi Interesse (bps)", "Giorni Crediti (gg)"],
+              datasets: [{
+                  label: "Variazione Critica",
+                  data: [-41.14, 85.10, 23.5, 180, 21],
+                  backgroundColor: ["#4CAF50", "#4CAF50", "#4CAF50", "#4CAF50", "#F44336"],
+                  borderColor: ["#157347", "#157347", "#157347", "#157347", "#c82333"],
+                  borderWidth: 1
+              }]
+          };
+
+        // ======================================
+        // ALL CHART OPTIONS (Common + Specifics for Parte 6) - Definite qui
+        // ======================================
+        const commonChartOptionsParte6 = {
+             responsive: true,
+             maintainAspectRatio: false,
+             plugins: {
+                 legend: { display: false },
+                 tooltip: {
+                     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                     titleFont: { weight: 'bold', size: 13 },
+                     bodyFont: { size: 12 },
+                     padding: 10, cornerRadius: 4, displayColors: true, boxPadding: 4,
+                     callbacks: {
+                          label: function(context) {
+                              let label = context.dataset.label || '';
+                              if (label) label += ': ';
+                              let value = context.chart.options.indexAxis === 'y' ? context.parsed.x : context.parsed.y;
+                              const datasetLabel = context.dataset.label || '';
+                              // Per sensitivity chart, l'etichetta dell'asse Y è in context.chart.data.labels[context.dataIndex]
+                              const axisLabel = context.chart.data.labels[context.dataIndex] || '';
+
+                              if (value !== null && value !== undefined) {
+                                  if (datasetLabel.includes('Z-Score') || datasetLabel.includes('Soglia')) {
+                                      label += value.toFixed(2);
+                                  } else if (datasetLabel.includes('Variazione Critica')) {
+                                      label += value.toFixed(2) + (axisLabel.includes('(gg)') ? ' gg' : '%');
+                                  } else {
+                                      label += value.toFixed(2);
+                                  }
+                              } else {
+                                  label += 'N/D';
+                              }
+                              return label;
+                          }
+                      }
+                 }
+             },
+             scales: { x: { grid: { display: false }, ticks: { font: { size: 11 } } }, y: { grid: { color: '#e0e0e0', borderDash: [2, 3] }, ticks: { font: { size: 11 } } } },
+             animation: { duration: 400 }
+         };
+
+        // --- Z-Score Chart Options ---
+        const zscoreOptions = {
+             ...commonChartOptionsParte6,
+             scales: {
+                 y: { ...commonChartOptionsParte6.scales.y, title: { display: true, text: 'Z-Score' }, suggestedMin: 0, suggestedMax: 5 },
+                 x: { ...commonChartOptionsParte6.scales.x }
+             },
+             plugins: {
+                 ...commonChartOptionsParte6.plugins,
+                 title: { display: false },
+                 legend: { display: true, position: 'bottom' }
+            }
+         };
+
+         // --- Sensitivity Chart Options ---
+         const sensitivityOptions = {
+             ...commonChartOptionsParte6,
+             indexAxis: 'y', // Barre orizzontali
+             scales: {
+                 x: { ...commonChartOptionsParte6.scales.x, title: { display: true, text: 'Variazione critica' }, ticks: { callback: function(v, index, ticks) {
+                             // Usa l'etichetta Y (dal dataset ora che indexAxis è 'y') per determinare l'unità
+                             const yLabel = this.chart.data.labels[index];
+                             return yLabel.includes('(gg)') ? v + ' gg' : v + '%';
+                          } } },
+                 y: { ...commonChartOptionsParte6.scales.y, grid: { display: false } }
+             },
+             plugins: { ...commonChartOptionsParte6.plugins, title: { display: false }, legend: { display: false } }
+         };
+
+        // ======================================
+        // CHART INITIALIZATION LOGIC + OTHER SCRIPTS
+        // ======================================
+        document.addEventListener('DOMContentLoaded', function() {
+             console.log("Initializing ALL scripts for Parte 6 Blue Marlin (Embedded)...");
+
+             // --- Initialize Charts ---
+             try {
+                 initChart('zscoreChart', 'bar', zscoreData, zscoreOptions);
+                 console.log("Grafico zscoreChart inizializzato.");
+             } catch(e) { console.error("Errore init zscoreChart:", e);}
+
+             try {
+                 initChart('sensitivityChart', 'bar', sensitivityData, sensitivityOptions);
+                 console.log("Grafico sensitivityChart inizializzato.");
+             } catch(e) { console.error("Errore init sensitivityChart:", e);}
+
+             // --- Other Page Scripts ---
+             document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+             const footerYear = document.getElementById('currentYearFooterReport');
+             if (footerYear) footerYear.textContent = new Date().getFullYear();
+
+             const irpScoreValue = 56.32; // Blue Marlin IRP
+             const irpHeaderBadge = document.getElementById('irp-header-badge');
+             if(irpHeaderBadge) {
+                 let badgeClass = 'bg-warning text-dark';
+                 if (irpScoreValue >= 71) badgeClass = 'bg-success'; // Basso
+                 else if (irpScoreValue < 51) badgeClass = 'bg-danger'; // Alto
+                 irpHeaderBadge.className = `badge ${badgeClass} me-3`;
+                 irpHeaderBadge.textContent = `IRP: ${irpScoreValue.toFixed(1)}`;
+             }
+
+             // Global logout/print function placeholders
+             if (typeof window.logout !== 'function') {
+                 window.logout = function() { console.log("Logout placeholder"); }
+             }
+             if (typeof window.printDocument !== 'function') {
+                 window.printDocument = function() { window.print(); }
+             }
+
+             console.log("All scripts initialization attempt complete (Embedded). Check console for errors.");
+         });
+    </script>
+     <!-- Script ChatNode -->
+     <scan-chat data-bot-id="be3888cc-0096-4c66-a760-00e22a793edc"></scan-chat>
+     <script src="../js/bundle.js"></script>
+</body>
+</html>

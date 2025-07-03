@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bancabilità e Sostenibilità Debito - Blue Marlin S.R.L. | SCAN V11</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+     <style>
+        /* Stili IRP V6/V7 */
+        .irp-visual-section { background: linear-gradient(135deg, var(--white) 0%, #f0f4f8 100%); border-radius: 12px; padding: 2rem; box-shadow: var(--shadow); margin-bottom: 2.5rem; border: 1px solid var(--card-border); }
+        .irp-main-title { color: var(--primary); font-weight: 700; margin-bottom: 1.5rem; border-bottom: 2px solid var(--secondary); padding-bottom: 0.8rem; }
+        .irp-gradient-bar-container { margin-bottom: 0.5rem; }
+        .irp-gradient-bar { height: 20px; border-radius: 10px; overflow: hidden; position: relative; background: linear-gradient(to right, #d62246 0%, #d98c00 35%, #ffc107 55%, #4CAF50 80%, #191970 100%); border: 1px solid #bdc3c7; }
+        .irp-marker { position: absolute; top: -5px; bottom: -5px; width: 6px; background-color: #ffffff; border: 2px solid #343a40; transform: translateX(-50%); box-shadow: 0 0 8px rgba(0,0,0,0.5); z-index: 2; border-radius: 3px; }
+        .irp-marker::after { content: ''; position: absolute; bottom: -7px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 7px solid transparent; border-right: 7px solid transparent; border-top: 8px solid #343a40; }
+        .irp-scale-labels { font-size: 0.8rem; color: #6c757d; font-weight: 500; padding: 0 5px;}
+        .irp-score-circle { width: 140px; height: 140px; border-radius: 50%; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 0.5rem auto; box-shadow: 0 8px 20px rgba(0,0,0,0.25); background: var(--warning); border: 6px solid rgba(255, 255, 255, 0.5); }
+        .irp-score-circle.risk-low { background: radial-gradient(circle, #6bc571, #4CAF50); }
+        .irp-score-circle.risk-medium { background: radial-gradient(circle, #ffd54f, #FFC107); }
+        .irp-score-circle.risk-high { background: radial-gradient(circle, #f6685e, #F44336); }
+        .irp-score-value { font-size: 3.5rem; font-weight: 700; line-height: 1; text-shadow: 1px 1px 3px rgba(0,0,0,0.4);}
+        .irp-score-max { font-size: 0.9rem; opacity: 0.8; display: block; line-height: 1;}
+        .irp-category-text { font-size: 1.2rem; font-weight: 600; margin-top: 0.5rem; text-align: center; }
+        .irp-category-text .status-badge { font-size: 0.85rem; vertical-align: middle; margin-left: 8px;}
+        .other-ratings { font-size: 0.85rem; } .other-ratings strong { color: var(--dark); } .other-ratings .badge { margin-left: 5px; }
+        .stable-badge { background-color: var(--warning); color: var(--dark); border-radius: 8px; padding: 3px 8px; font-weight: 600; font-size: 0.8rem;} /* Adjusted name and color */
+        /* Stili Matching Card */
+        .matching-card { margin-bottom: 1rem; border-left-width: 4px; }
+        .matching-card-header { font-weight: 600; display: flex; align-items: center;}
+        .matching-card-header i { margin-right: 8px;}
+        .matching-card.adequate { border-left-color: var(--warning); }
+        .matching-card.good { border-left-color: var(--success); }
+        .matching-card.optimal { border-left-color: var(--primary); } /* Optimal changed to Primary color */
+        .matching-card.excellent { border-left-color: var(--success); } /* Added Excellent style */
+         /* Altri stili V9/V11 */
+         :root {
+            --primary: #191970; --secondary: #4a69bd; --success: #4CAF50;
+            --warning: #FFC107; --danger: #F44336; --info: #0dcaf0;
+            --light: #f8f9fa; --dark: #343a40; --white: #ffffff;
+            --text-primary: #212529; --text-secondary: #6c757d;
+            --card-bg: var(--white); --card-border: #dee2e6;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        html, body { height: 100%; overflow-x: hidden; font-family: 'Titillium Web', sans-serif; background-color: #f4f8fb; }
+        body { display: flex; }
+        .sidebar { width: 250px; background-color: var(--primary); color: #e0e0e0; position: fixed; top: 0; bottom: 0; left: 0; z-index: 1031; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1); transition: width 0.3s ease; overflow-y: auto; }
+        .main-wrapper { margin-left: 250px; width: calc(100% - 250px); display: flex; flex-direction: column; min-height: 100vh; position: relative; padding-top: 70px; }
+        .dashboard-header { background-color: var(--white); padding: 15px 30px; border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 5px rgba(0,0,0,0.05); min-height: 70px; display: flex; align-items: center; justify-content: space-between; position: fixed; top: 0; left: 250px; right: 0; z-index: 1030; }
+        .dashboard-container { padding: 30px; flex-grow: 1; width: 100%; }
+        .footer { background-color: var(--primary); color: rgba(255, 255, 255, 0.7); padding: 15px 30px; font-size: 0.85rem; margin-top: auto; flex-shrink: 0; width: 100%; }
+        .footer img { max-height: 20px; width: auto; filter: brightness(0) invert(1); opacity: 0.8; vertical-align: middle;}
+        .sidebar-header { padding: 10px 20px; margin-bottom: 20px; text-align: left; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
+        .sidebar-header img { max-height: 40px; } .sidebar-header h5 { color: var(--white); margin-top: 10px; font-size: 1.1rem; font-weight: 600; }
+        .sidebar-nav { list-style: none; padding: 0; } .sidebar-nav .nav-item { margin: 0; }
+        .sidebar-nav .nav-link { color: #e0e0e0; padding: 12px 20px; display: flex; align-items: center; font-size: 0.95rem; font-weight: 500; border-left: 4px solid transparent; transition: all 0.2s ease; }
+        .sidebar-nav .nav-link:hover { background-color: rgba(255, 255, 255, 0.05); color: var(--white); border-left-color: var(--warning); }
+        .sidebar-nav .nav-link.active { background-color: rgba(255, 255, 255, 0.1); color: var(--white); font-weight: 600; border-left-color: var(--white); }
+        .sidebar-nav .nav-link i { margin-right: 15px; width: 20px; text-align: center; font-size: 1rem; }
+        .sidebar-nav .nav-title { padding: 10px 20px; font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 15px; }
+        .sidebar-footer { margin-top: auto; padding: 15px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; text-align: left; }
+        .section-title { color: var(--primary); font-weight: 600; margin-top: 2.5rem; margin-bottom: 1.5rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--secondary); font-size: 1.75rem; display: flex; align-items: center; } .section-title i { margin-right: 10px; }
+        .dashboard-card { background-color: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); transition: all 0.3s ease; height: 100%; }
+        .dashboard-card:hover { box-shadow: 0 8px 16px rgba(0,0,0,0.1); transform: translateY(-3px); }
+        .card-title-small { font-size: 0.9rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .table { border: 1px solid var(--card-border); margin-bottom: 1rem; } .table thead th { background-color: var(--light); color: var(--primary); font-weight: 600; border-bottom: 2px solid var(--primary); font-size: 0.9rem; white-space: nowrap; } .table-hover tbody tr:hover { background-color: #eef2f7; } .table td, .table th { vertical-align: middle; padding: 0.6rem 0.75rem; font-size: 0.9rem;} .value-highlight { font-weight: 600; color: var(--primary); } .text-end { text-align: right !important;} .text-success { color: var(--success) !important; } .text-danger { color: var(--danger) !important; } .text-warning { color: var(--warning) !important; } .text-secondary { color: var(--text-secondary) !important; }
+        .alert-box { padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid; } .alert-box h5 { margin-bottom: 10px; font-size: 1.1rem; font-weight: 600;} .alert-box ul { padding-left: 20px; margin-bottom: 0; font-size: 0.9rem;} .alert-box.alert-success { background-color: #d1e7dd; border-color: #a3cfbb; color: #0a3622; } .alert-box.alert-warning { background-color: #fff3cd; border-color: #ffda6a; color: #664d03; } .alert-box.alert-danger { background-color: #f8d7da; border-color: #f1aeb5; color: #58151c; } .alert-box.alert-info { background-color: #cff4fc; border-color: #9eeaf9; color: #055160; }
+        .status-badge { font-size: .75em; font-weight: 700; line-height: 1; padding: .35em .65em; border-radius: .375rem; color: white; display: inline-block; } .status-badge.bg-success { background-color: var(--success) !important; } .status-badge.bg-warning { background-color: var(--warning) !important; color: var(--dark) !important;} .status-badge.bg-danger { background-color: var(--danger) !important; } .status-badge.bg-info { background-color: var(--info) !important; color: var(--dark) !important;}
+        .chart-container { height: 300px; margin-bottom: 20px; background-color: var(--white); padding: 15px; border-radius: 8px; border: 1px solid var(--card-border); box-shadow: 0 2px 4px rgba(0,0,0,0.05); position: relative; }
+        .icon-circle { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: white; margin-right: 12px; font-size: 0.9rem; flex-shrink: 0; }
+        .bg-icon-success { background-color: var(--success); } .bg-icon-warning { background-color: var(--warning); } .bg-icon-danger { background-color: var(--danger); } .bg-icon-info { background-color: #4f6d7a; } .bg-icon-primary { background-color: var(--primary); } .bg-icon-secondary { background-color: var(--secondary); }
+        @media (max-width: 991.98px) { .sidebar { width: 0; border: none; box-shadow: none;} .main-wrapper { margin-left: 0; width: 100%; padding-top: 56px; } .dashboard-header { left: 0; width: 100%; min-height: 56px; padding: 5px 15px;} .header-title h5 { font-size: 1rem;} .header-title p { font-size: 0.75rem;} .dashboard-container { padding: 15px;} .footer { padding: 10px 15px;} }
+        @media print { body { display: block; } .main-wrapper { margin-left: 0; width: 100%; padding-top: 0; } .no-print { display: none !important; } .report-section { page-break-inside: avoid; } }
+     </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>Blue Marlin S.R.L.</h5> </div>
+        <ul class="sidebar-nav flex-grow-1">
+            <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+            <li class="nav-title">Analisi Dettagliata</li>
+            <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte5_circolante-flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+            <li class="nav-title">Approfondimenti</li>
+            <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+        </ul>
+        <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+    </aside>
+
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                <h5 class="mb-0">Report Dettagliato: Bancabilità e Sostenibilità Debito</h5>
+                <p class="mb-0">Blue Marlin S.R.L. | <span class="report-date">31 Dicembre 2024</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <span id="irp-header-badge" class="badge me-3"></span> <!-- Badge IRP -->
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Blue Marlin S.R.L. </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">Blue Marlin S.R.L.</span></h1>
+            <p class="text-center mb-0">Report Dettagliato: Bancabilità e Sostenibilità Debito | <span class="report-date">31 Dicembre 2024</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Specifico del Report -->
+        <div class="dashboard-container">
+
+            <!-- ================================================================ -->
+            <!-- CONTENUTO SPECIFICO PARTE 4 - V11 CON IRP e SINTESI FUSE - Updated for Blue Marlin -->
+            <!-- ================================================================ -->
+
+            <h2 class="section-title" id="bankability"><i class="fas fa-university me-2"></i>4. BANCABILITÀ E SOSTENIBILITÀ DEL DEBITO</h2>
+
+            <!-- Sezione IRP Prominente che include la Sintesi Bancabilità -->
+            <section class="irp-visual-section risk-high report-section" id="bankability-summary-section">
+                 <div class="row align-items-center">
+                      <div class="col-lg-4 text-center mb-4 mb-lg-0">
+                           <h6 class="card-title-small mb-3"><i class="fas fa-shield-alt me-1"></i> Indice Rischio Ponderato</h6>
+                           <div class="irp-score-circle risk-high">
+                               <span class="irp-score-value">56,3</span>
+                               <span class="irp-score-max">/ 100</span>
+                           </div>
+                           <div class="irp-category-text text-warning mt-2">
+                                Rischio Medio <span class="status-badge bg-warning">C</span>
+                           </div>
+                           <a href="irp_dettaglio.html" class="btn btn-sm btn-outline-primary mt-3 btn-pill">Dettaglio Calcolo IRP</a>
+                      </div>
+                       <div class="col-lg-8">
+                           <h4 class="mb-3 fw-bold" style="color: var(--primary);">Valutazione Sintetica Bancabilità e Rischio</h4>
+                           <p class="mb-3">BLUE MARLIN S.R.L. presenta, al 31/12/2024, un profilo di bancabilità critico, caratterizzato da squilibri finanziari significativi e una struttura del debito che richiede interventi correttivi urgenti. La società, operante dal 2002 nel settore "Commercio all'ingrosso di pesce" (ATECO 46.32.3), si configura come piccola impresa (PMI) con un modello di business di tipo industriale.</p>
+                           <div class="other-ratings border-top pt-3 mt-3">
+                               <h6 class="card-title-small mb-2">Altri Indicatori Chiave (12/2024):</h6>
+                               <ul class="list-unstyled mb-0 row gx-3 gy-2">
+                                   <li class="col-sm-6 d-flex align-items-center"><span class="icon-circle icon-circle-sm bg-icon-danger me-2"><i class="fas fa-chart-bar"></i></span><strong>Leanus Score:</strong> 2,77 <span class="badge bg-danger ms-1">Critico</span></li>
+                                   <li class="col-sm-6 d-flex align-items-center"><span class="icon-circle icon-circle-sm bg-icon-danger me-2"><i class="fas fa-university"></i></span><strong>Rating MCC PD:</strong> 9,43% <span class="badge bg-danger ms-1">Fascia 4</span></li>
+                                   <li class="col-sm-6 d-flex align-items-center"><span class="icon-circle icon-circle-sm bg-icon-danger me-2"><i class="fas fa-balance-scale-right"></i></span><strong>PFN/EBITDA:</strong> 5,11x <span class="badge bg-danger ms-1">Critico</span></li>
+                                    <li class="col-sm-6 d-flex align-items-center"><span class="icon-circle icon-circle-sm bg-icon-danger me-2"><i class="fas fa-landmark"></i></span><strong>Leva (D/E):</strong> 2,45x <span class="badge bg-danger ms-1">Elevata</span></li>
+                               </ul>
+                           </div>
+                           <p class="small text-muted mt-3 mb-0">L'azienda presenta un profilo di elevato rischio creditizio, con margini operativi positivi (EBITDA margin del 18,27%) compromessi da una gestione del circolante inefficiente che genera flussi di cassa operativi negativi (-€85.496, pari a -6,99% dei ricavi), rendendo insostenibile il servizio del debito attuale.</p>
+                       </div>
+                 </div>
+            </section>
+
+             <!-- Sezione Indicatori Sostenibilità Debito -->
+            <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">4.2 Indicatori di Sostenibilità del Debito</h5></div>
+                  <div class="card-body">
+                     <p>Analisi dettagliata della capacità di gestire l'indebitamento.</p>
+                      <div class="row">
+                         <div class="col-lg-7 mb-3 mb-lg-0">
+                              <h6>Tabella 4.1: Indicatori Sostenibilità Debito 2022-2024</h6>
+                             <div class="table-responsive">
+                                 <table class="table table-sm table-striped table-hover">
+                                     <thead class="table-light"><tr><th>Indicatore</th><th class="text-end">2022</th><th class="text-end">2023</th><th class="text-end">2024</th><th>Trend</th><th>Benchmark</th><th>Valutazione</th></tr></thead>
+                                     <tbody>
+                                         <tr><td>PFN/EBITDA</td><td class="text-end">12,48</td><td class="text-end">19,94</td><td class="text-end">5,11</td><td class="text-success">↓</td><td>&lt; 3,0</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                                         <tr><td>D/E (Leva Fin.)</td><td class="text-end">3,45</td><td class="text-end">3,04</td><td class="text-end">2,45</td><td class="text-success">↓</td><td>&lt; 2,0</td><td><span class="status-badge bg-danger">Elevata</span></td></tr>
+                                         <tr><td>DSCR</td><td class="text-end">N.D.</td><td class="text-end">N.D.</td><td class="text-end">-0,082</td><td>N.A.</td><td>&gt; 1,2</td><td><span class="status-badge bg-danger">Insostenibile</span></td></tr>
+                                         <tr><td>EBITDA/Oneri Fin.</td><td class="text-end">2,13</td><td class="text-end">0,91</td><td class="text-end">4,62</td><td class="text-success">↑</td><td>&gt; 5,0</td><td><span class="status-badge bg-warning">Insufficiente</span></td></tr>
+                                         <tr><td>CF Operativo/Ricavi</td><td class="text-end">-7,07%</td><td class="text-end">7,64%</td><td class="text-end">-6,99%</td><td class="text-danger">↓</td><td>&gt; 5%</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                          <div class="col-lg-5">
+                               <h6 class="text-center small">Grafico 4.1: Indicatori Sostenibilità (Radar)</h6>
+                               <div class="chart-container" style="height: 300px;"> <canvas id="debtSustainabilityChart"></canvas> </div>
+                          </div>
+                     </div>
+                      <h6 class="mt-4">Interpretazione Indicatori Sostenibilità:</h6>
+                      <ul class="small">
+                          <li><strong>PFN/EBITDA (5,11x):</strong> CRITICO - Livello di indebitamento difficilmente sostenibile (benchmark settoriale: &lt; 3,0x)</li>
+                          <li><strong>EBITDA/Oneri Finanziari (4,62x):</strong> INSUFFICIENTE - Copertura sotto la soglia minima di sicurezza (5,0x)</li>
+                          <li><strong>Debt/Equity (2,45x):</strong> ELEVATA - Struttura patrimoniale squilibrata con eccessivo ricorso al capitale di terzi</li>
+                          <li><strong>Cash Flow Operativo/Debiti Finanziari (-7,06%):</strong> CRITICO - Incapacità strutturale di generare liquidità per il servizio del debito</li>
+                      </ul>
+                  </div>
+             </div>
+
+            <!-- Capacità Indebitamento -->
+             <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">4.3 Capacità di Indebitamento Incrementale</h5></div>
+                 <div class="card-body">
+                     <p>Valutazione della capacità dell'azienda di assumere nuovo debito.</p>
+                     <div class="row align-items-center">
+                         <div class="col-md-5 mb-3 mb-md-0 text-center">
+                             <div class="alert-box alert-danger p-3">
+                                 <div class="icon-circle bg-icon-danger mx-auto mb-2"><i class="fas fa-times"></i></div>
+                                 <h6 class="mb-1">Capacità Incrementale Stimata:</h6>
+                                 <p class="fs-3 fw-bold mb-1">€ 0</p>
+                                 <p class="small text-muted mb-0">Concessione Fido a rischio del fornitore</p>
+                             </div>
+                         </div>
+                          <div class="col-md-7">
+                             <h6>Fattori Limitanti:</h6>
+                              <div class="row small">
+                                  <div class="col-6"><strong>Criticità Primarie:</strong><ul class="fa-ul ms-3"><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>DSCR negativo (-0,082)</li><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>Cash Flow Operativo negativo</li><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>PFN/EBITDA elevato (5,11x)</li><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>Probabilità di default (9,43%)</li></ul></div>
+                                  <div class="col-6"><strong>Limiti strutturali:</strong><ul class="fa-ul ms-3"><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>Copertura immobilizzazioni (0,54)</li><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>Ciclo circolante anomalo (282 gg)</li><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>Leva finanziaria elevata (2,45)</li><li><span class="fa-li text-danger"><i class="fas fa-times"></i></span>Free Cash Flow negativo</li></ul></div>
+                              </div>
+                         </div>
+                     </div>
+                 </div>
+            </div>
+
+            <!-- DSCR -->
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">4.4 DSCR (Debt Service Coverage Ratio)</h5></div>
+                  <div class="card-body">
+                      <p>Valutazione della capacità di coprire il servizio del debito.</p>
+                      <div class="alert-box alert-danger">
+                          <div class="row">
+                              <div class="col-md-4 text-center border-end"><strong>DSCR Calcolato</strong><br><span class="fs-3 fw-bold">-0,082</span></div>
+                              <div class="col-md-4 text-center border-end"><strong>Soglia Minima</strong><br><span class="fs-3 fw-bold">1,0</span></div>
+                              <div class="col-md-4 text-center"><strong>Interpretazione</strong><br><span class="fs-3 fw-bold">Insolvenza Tecnica</span></div>
+                          </div>
+                      </div>
+                      <p class="small mt-3">Il DSCR negativo (-0,082) indica che l'azienda non è in grado di generare flussi sufficienti per il servizio del debito, configurando una situazione di insolvenza tecnica.</p>
+                      <p class="small">Analisi dei flussi di supporto:</p>
+                      <ul class="small">
+                          <li>Cash Flow Operativo 2024: -€85.496</li>
+                          <li>Servizio del debito stimato: €451.919 (quota capitale + interessi)</li>
+                          <li>Coverage ratio effettivo: -0,189</li>
+                      </ul>
+                  </div>
+             </div>
+
+            <!-- PFN/EBITDA -->
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">4.5 PFN/EBITDA</h5></div>
+                  <div class="card-body">
+                     <p>Valutazione della sostenibilità del debito rispetto alla marginalità lorda.</p>
+                      <h6>Evoluzione storica PFN/EBITDA:</h6>
+                      <div class="table-responsive"> <table class="table table-sm table-striped table-hover"> <thead class="table-light"><tr><th>Anno</th><th class="text-end">PFN (€)</th><th class="text-end">EBITDA (€)</th><th class="text-end">PFN/EBITDA (x)</th><th>Valutazione</th></tr></thead> <tbody>
+                          <tr><td>2022</td><td class="text-end">1.156.605</td><td class="text-end">92.687</td><td class="text-end">12,48x</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                          <tr><td>2023</td><td class="text-end">1.055.453</td><td class="text-end">52.926</td><td class="text-end">19,94x</td><td><span class="status-badge bg-danger">Molto elevato</span></td></tr>
+                          <tr><td>2024</td><td class="text-end">1.141.416</td><td class="text-end">223.543</td><td class="text-end">5,11x</td><td><span class="status-badge bg-danger">Elevato</span></td></tr>
+                          </tbody> </table> </div>
+                      <h6 class="mt-4">Interpretazione:</h6>
+                      <ul class="small"><li>Trend: Miglioramento significativo rispetto ai valori anomali del 2023 (19,94x) ma ancora in zona critica (>5,0x)</li><li>Il valore 2024 (5,11x) è significativamente superiore alla soglia di sostenibilità (3,0-4,0x)</li><li>Il miglioramento è principalmente determinato dall'incremento dell'EBITDA (+322,37%), mentre la PFN ha registrato un incremento (+8,14%)</li></ul>
+                  </div>
+             </div>
+
+           <!-- SEZIONE 4.6 MATCHING FINANZIARIO -->
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">4.6 Matching Finanziario</h5></div>
+                 <div class="card-body">
+                    <p>Valutazione dell'allineamento tra la struttura degli impieghi (investimenti) e delle fonti (finanziamenti).</p>
+                    <div class="row gy-3">
+                         <div class="col-md-6">
+                            <div class="dashboard-card matching-card adequate h-100">
+                                 <h6 class="matching-card-header"><i class="fas fa-coins text-warning"></i> Cash Flow Matching</h6>
+                                 <p class="small mb-1">Valuta l'allineamento tra servizio del debito e capacità di generazione di cassa.</p>
+                                 <ul class="small list-unstyled">
+                                     <li><strong>DSCR 2024:</strong> -0,082 (< 1,0 Soglia)</li>
+                                     <li><strong>Cash Flow Operativo 2024:</strong> -€85.496</li>
+                                     <li><strong>Servizio Debito Stimato:</strong> €451.919</li>
+                                     <li><strong>Deficit:</strong> €537.415</li>
+                                 </ul>
+                                 <p class="small fw-bold mb-0">Valutazione: <span class="status-badge bg-danger">CRITICO</span></p>
+                                 <p class="small text-muted mt-1 mb-0">Cash Flow Operativo negativo, incapacità strutturale di servire il debito</p>
+                            </div>
+                         </div>
+                          <div class="col-md-6">
+                             <div class="dashboard-card matching-card adequate h-100">
+                                  <h6 class="matching-card-header"><i class="fas fa-layer-group text-warning"></i> Amounts Matching</h6>
+                                  <p class="small mb-1">Valuta se il debito MLT e PN coprono gli investimenti a MLT.</p>
+                                  <ul class="small list-unstyled">
+                                      <li><strong>Attivo Fisso Netto 2024:</strong> €914.627</li>
+                                      <li><strong>Debito a lungo termine:</strong> €872.022</li>
+                                      <li><strong>Rapporto:</strong> 95,3%</li>
+                                      <li><strong>Differenza:</strong> €42.605 (margine minimo)</li>
+                                  </ul>
+                                  <p class="small fw-bold mb-0">Valutazione: <span class="status-badge bg-warning">LIMITE SOSTENIBILITÀ</span></p>
+                                   <p class="small text-muted mt-1 mb-0">Debito a lungo termine che copre quasi integralmente il valore delle immobilizzazioni</p>
+                             </div>
+                         </div>
+                          <div class="col-md-6">
+                             <div class="dashboard-card matching-card adequate h-100">
+                                 <h6 class="matching-card-header"><i class="fas fa-hourglass-half text-warning"></i> Duration Matching</h6>
+                                  <p class="small mb-1">Valuta se la durata del finanziamento è allineata alla vita utile dell'attivo.</p>
+                                   <ul class="small list-unstyled">
+                                      <li><strong>Debiti finanziari MLT:</strong> €872.022 (72,0% del totale)</li>
+                                      <li><strong>Debiti finanziari BT:</strong> €339.358 (28,0% del totale)</li>
+                                      <li><strong>Trend:</strong> Crescente incidenza del debito a breve (+85,2% nel biennio)</li>
+                                   </ul>
+                                   <p class="small fw-bold mb-0">Valutazione: <span class="status-badge bg-warning">ADEGUATO MA IN DETERIORAMENTO</span></p>
+                                   <p class="small text-muted mt-1 mb-0">Prevalenza di debiti a medio-lungo termine ma con trend di ricomposizione verso il breve</p>
+                             </div>
+                         </div>
+                           <div class="col-md-6">
+                              <div class="dashboard-card matching-card adequate h-100">
+                                   <h6 class="matching-card-header"><i class="fas fa-gem text-warning"></i> Quality Matching</h6>
+                                   <p class="small mb-1">Valuta se la forma tecnica del finanziamento è appropriata alla natura dell'attivo.</p>
+                                    <p class="small mb-0">L'analisi evidenzia:</p>
+                                    <ul class="small list-unstyled">
+                                        <li><strong>Immobilizzazioni materiali:</strong> €724.718 (79,2% delle immobilizzazioni totali)</li>
+                                        <li><strong>Immobilizzazioni immateriali:</strong> €189.538 (20,7% delle immobilizzazioni totali)</li>
+                                        <li><strong>Elevata incidenza di immobilizzazioni immateriali</strong> (principalmente avviamento)</li>
+                                    </ul>
+                                   <p class="small fw-bold mb-0 mt-2">Valutazione: <span class="status-badge bg-warning">PARZIALMENTE ADEGUATO</span></p>
+                              </div>
+                          </div>
+                     </div>
+                 </div>
+             </div>
+
+            <!-- KPI Crisi -->
+             <div class="card mb-4 report-section">
+                 <div class="card-header"><h5 class="mb-0">4.8 KPI della Crisi d'Impresa (CCII)</h5></div>
+                 <div class="card-body">
+                      <div class="alert-box alert-warning d-flex align-items-center mb-4"> <span class="icon-circle bg-icon-warning me-3"><i class="fas fa-exclamation-triangle"></i></span> <div> <h6 class="mb-1">Indicatori CCII: <strong>4 su 6 Rispettati</strong></h6> <p class="small mb-0">Presenza di segnali di allerta specifici secondo il Codice della Crisi d'Impresa.</p> </div> </div>
+                      <h6 class="mt-4">Tabella 4.2: Dettaglio indicatori CCII (2024)</h6>
+                       <div class="table-responsive"> <table class="table table-sm table-striped table-hover"> <thead class="table-light"><tr><th>Indicatore</th><th class="text-end">Valore</th><th>Soglia CCII</th><th>Status</th></tr></thead> <tbody>
+                           <tr><td>Oneri Finanziari/Ricavi</td><td class="text-end">3,96%</td><td>< 3,0%</td><td><span class="status-badge bg-danger">✗ NON CONFORME</span></td></tr>
+                           <tr><td>Patrimonio Netto/Debiti Totali</td><td class="text-end">29,44%</td><td>> 7,6%</td><td><span class="status-badge bg-success">✓ CONFORME</span></td></tr>
+                           <tr><td>Attività a Breve/Passività a Breve</td><td class="text-end">176,72%</td><td>> 93,7%</td><td><span class="status-badge bg-success">✓ CONFORME</span></td></tr>
+                           <tr><td>Cash Flow/Totale Attivo</td><td class="text-end">8,16%</td><td>> 0,5%</td><td><span class="status-badge bg-success">✓ CONFORME</span></td></tr>
+                           <tr><td>Indebitamento Prev. e Trib./Totale Attivo</td><td class="text-end">1,26%</td><td>< 4,9%</td><td><span class="status-badge bg-success">✓ CONFORME</span></td></tr>
+                           <tr><td>DSCR prospettico</td><td class="text-end">-0,082</td><td>≥ 1</td><td><span class="status-badge bg-danger">✗ NON CONFORME</span></td></tr>
+                           </tbody> </table> </div>
+                        <p class="small text-muted mt-3">Valutazione complessiva CCII: <strong>PRE-CRISI</strong> con indicatori di allerta attivati. Il superamento della soglia di allarme per il rapporto Oneri Finanziari/Ricavi (3,96% > 3,0%) e il DSCR negativo configurano una situazione che richiede l'attivazione di misure correttive urgenti.</p>
+                 </div>
+             </div>
+
+            <!-- Raccomandazioni -->
+            <div class="card mb-4 report-section">
+                <div class="card-header"><h5 class="mb-0">4.9 Raccomandazioni per la Strategia Finanziaria</h5></div>
+                 <div class="card-body">
+                     <h6>Piano d'azione prioritario:</h6>
+                     <div class="table-responsive">
+                         <table class="table table-sm table-striped table-hover">
+                             <thead class="table-light">
+                                 <tr>
+                                     <th>Situazione Attuale</th>
+                                     <th>Azione Suggerita</th>
+                                     <th>Effetti Previsti</th>
+                                     <th>Impatto Quantitativo/Costo</th>
+                                 </tr>
+                             </thead>
+                             <tbody>
+                                 <tr>
+                                     <td>Ciclo circolante: 282 gg<br>DSO: 120 gg<br>DIO: 292 gg</td>
+                                     <td>Implementazione urgente credit management<br>Ottimizzazione gestione scorte<br>Factoring pro-soluto</td>
+                                     <td>Riduzione ciclo a 150 gg<br>Generazione liquidità</td>
+                                     <td>Liberazione liquidità: €400.000-500.000<br>Costo: €30.000-50.000</td>
+                                 </tr>
+                                 <tr>
+                                     <td>PFN/EBITDA: 5,11x<br>D/E: 2,45</td>
+                                     <td>Ricapitalizzazione urgente<br>Conversione debito in equity<br>Ristrutturazione del debito</td>
+                                     <td>Riduzione PFN/EBITDA < 3,0x<br>Miglioramento D/E < 1,5</td>
+                                     <td>Ricapitalizzazione: €300.000-400.000<br>Riduzione debito: €400.000-500.000</td>
+                                 </tr>
+                                 <tr>
+                                     <td>Cash Flow Op.: -€85.496<br>DSCR: -0,082</td>
+                                     <td>Piano emergenziale generazione cassa<br>Revisione struttura costi<br>Focus su marginalità</td>
+                                     <td>Cash Flow positivo<br>DSCR > 1,2</td>
+                                     <td>Miglioramento CF: €200.000-250.000/anno<br>Investimento: €50.000-80.000</td>
+                                 </tr>
+                                 <tr>
+                                     <td>Debiti Fin.: €1.211.380<br>Oneri fin.: 3,96% ricavi</td>
+                                     <td>Rinegoziazione urgente condizioni<br>Moratoria temporanea<br>Consolidamento MLT</td>
+                                     <td>Riduzione servizio debito<br>Allungamento scadenze</td>
+                                     <td>Risparmio oneri: €20.000-30.000/anno<br>Costi ristrutturazione: €40.000-60.000</td>
+                                 </tr>
+                                 <tr>
+                                     <td>EBITDA margin: 18,27%<br>Costi fissi elevati</td>
+                                     <td>Revisione struttura costi<br>Ottimizzazione processi<br>Rinegoziazione contratti</td>
+                                     <td>Incremento EBITDA margin > 25%</td>
+                                     <td>Risparmio costi: €100.000-150.000/anno<br>Investimento: €30.000-50.000</td>
+                                 </tr>
+                                 <tr>
+                                     <td>2/6 indicatori fuori soglia</td>
+                                     <td>Sistema monitoraggio KPI<br>Early warning dashboard<br>Piano prevenzione crisi</td>
+                                     <td>Conformità normativa<br>Prevenzione default</td>
+                                     <td>Costo implementazione: €20.000-30.000<br>Beneficio: mitigazione rischi</td>
+                                 </tr>
+                             </tbody>
+                         </table>
+                     </div>
+                     <h6 class="mt-3">Priorità strategiche:</h6>
+                     <ol class="small">
+                         <li class="mb-2"><strong>IMMEDIATA (0-3 mesi):</strong> Intervento immediato sul capitale circolante con implementazione di politiche aggressive di recupero crediti e ottimizzazione radicale delle scorte</li>
+                         <li class="mb-2"><strong>BREVE TERMINE (3-6 mesi):</strong> Ricapitalizzazione d'urgenza con aumento di capitale minimo €300.000-400.000 e ristrutturazione del debito</li>
+                         <li class="mb-2"><strong>MEDIO TERMINE (6-12 mesi):</strong> Piano di turnaround operativo con revisione del modello di business e implementazione controllo di gestione avanzato</li>
+                         <li class="mb-2"><strong>LUNGO TERMINE (>12 mesi):</strong> Sistema di monitoraggio e prevenzione crisi con dashboard real-time indicatori CCII</li>
+                     </ol>
+                      <a href="parte6_rischi-raccomandazioni.html#table_7_1_1" class="btn btn-sm btn-primary mt-2 btn-pill"> <i class="fas fa-list-alt me-1"></i> Vai a Piano d'Azione Dettagliato</a>
+                 </div>
+            </div>
+
+            <!-- ================================================================ -->
+            <!-- FINE CONTENUTO SPECIFICO PARTE 4 -->
+            <!-- ================================================================ -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard V2 (Corretto) -->
+        <footer class="footer no-print"> <div class="container-fluid px-4"> <div class="row align-items-center"> <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div> <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a> <img src="../assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2"> </div> </div> </div> </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/charts_config.js"></script>
+    <script src="../js/report_init.js"></script>
+     <script>
+        document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+        document.getElementById('currentYearFooterReport').textContent = new Date().getFullYear();
+
+         // Script aggiornamento badge IRP header
+         document.addEventListener('DOMContentLoaded', function() {
+             const irpScoreValue = 56.32; // IRP Value
+             const irpHeaderBadge = document.getElementById('irp-header-badge');
+             if(irpHeaderBadge) {
+                 let badgeClass = 'bg-warning text-dark';
+                 if (irpScoreValue >= 71) badgeClass = 'bg-success'; // Basso
+                 else if (irpScoreValue < 51) badgeClass = 'bg-danger'; // Alto
+                 irpHeaderBadge.className = `badge ${badgeClass} me-3`;
+                 irpHeaderBadge.textContent = `IRP: ${irpScoreValue.toFixed(1)}`;
+             }
+
+              // Ensure logout function is defined
+             if (typeof logout !== 'function') {
+                 window.logout = function() {
+                    console.log("Logout action triggered (placeholder)");
+                }
+             }
+             // Ensure print function is defined
+             if (typeof printDocument !== 'function') {
+                window.printDocument = function() {
+                    window.print();
+                }
+             }
+         });
+     </script>
+     <!-- Script ChatNode -->
+<scan-chat data-bot-id="be3888cc-0096-4c66-a760-00e22a793edc"></scan-chat>
+<script src="../js/bundle.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analisi Patrimoniale - Blue Marlin S.R.L. | SCAN V9</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../css/print.css" rel="stylesheet" media="print">
+</head>
+<body>
+
+<!-- Sidebar -->
+    <aside class="sidebar no-print">
+        <div class="sidebar-header"> <img src="../assets/img/logo_scan.png" alt="SCAN Logo" style="max-height: 40px;"> <h5>Blue Marlin S.R.L.</h5> </div>
+        <ul class="sidebar-nav flex-grow-1">
+            <li class="nav-item"> <a class="nav-link" href="../dashboard_v2.html"> <i class="fas fa-tachometer-alt fa-fw"></i> Dashboard </a> </li>
+            <li class="nav-title">Analisi Dettagliata</li>
+            <li class="nav-item"> <a class="nav-link" href="parte1_sintesi.html"> <i class="fas fa-file-alt fa-fw"></i> Sintesi e Profilo </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte2_economico.html"> <i class="fas fa-balance-scale fa-fw"></i> Analisi Economica </a> </li>
+            <li class="nav-item"> <a class="nav-link active" href="parte3_patrimoniale.html"> <i class="fas fa-landmark fa-fw"></i> Analisi Patrimoniale </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte4_bancabilita.html"> <i class="fas fa-university fa-fw"></i> Bancabilità </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte5_circolante-flussi.html"> <i class="fas fa-sync-alt fa-fw"></i> Circolante e Flussi </a> </li>
+            <li class="nav-item"> <a class="nav-link" href="parte6_rischi-raccomandazioni.html"> <i class="fas fa-exclamation-triangle fa-fw"></i> Rischi e Azioni </a> </li>
+            <li class="nav-title">Approfondimenti</li>
+            <li class="nav-item"> <a class="nav-link" href="irp_dettaglio.html"> <i class="fas fa-shield-alt fa-fw"></i> Dettaglio IRP </a> </li>
+        </ul>
+        <div class="sidebar-footer"> <small>SCAN360 © <span id="currentYearSidebar"></span> Kitzanos</small> </div>
+    </aside>
+
+
+
+    <!-- Contenuto Principale Wrapper -->
+    <div class="main-wrapper">
+        <!-- Header Orizzontale -->
+        <header class="dashboard-header no-print">
+            <div class="header-title">
+                <h5 class="mb-0">Report Dettagliato: Analisi Patrimoniale</h5>
+                <p class="mb-0">Blue Marlin S.R.L. | <span class="report-date">31 Dicembre 2024</span></p>
+            </div>
+            <div class="header-controls d-flex align-items-center">
+                <span id="irp-header-badge" class="badge me-3"></span>
+                <button class="btn btn-sm btn-outline-secondary me-2 print-button" onclick="printDocument()"> <i class="fas fa-print"></i> Stampa </button>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-light border dropdown-toggle" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false"> <i class="fas fa-user-circle me-1"></i> Blue Marlin S.R.L. </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton"> <li><button class="dropdown-item" type="button" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</button></li> </ul>
+                </div>
+            </div>
+        </header>
+        <div class="container d-none d-print-block mt-4 mb-4">
+            <h1 class="text-center mb-0"><span class="company-name">Blue Marlin S.R.L.</span></h1>
+            <p class="text-center mb-0">Report Dettagliato: Analisi Patrimoniale | <span class="report-date">31 Dicembre 2024</span></p>
+            <hr>
+        </div>
+
+        <!-- Area Contenuto Specifico del Report -->
+        <div class="dashboard-container">
+
+            <!-- ================================================================ -->
+            <!-- CONTENUTO SPECIFICO PARTE 3 - V9 - Updated for Blue Marlin S.R.L. -->
+            <!-- ================================================================ -->
+
+            <h2 class="section-title" id="patrimonial-analysis"><i class="fas fa-landmark me-2"></i>ANALISI PATRIMONIALE</h2>
+
+         <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">1. Stato Patrimoniale Riclassificato (triennio)</h5></div>
+            <div class="card-body">
+                <p>L'analisi dello Stato Patrimoniale riclassificato secondo il criterio fonti-impieghi evidenzia la seguente situazione per il triennio 2022-2024.</p>
+
+                 <!-- Grafici Composizione Attivo e Passivo -->
+                 <div class="row mt-4">
+                     <div class="col-lg-6 mb-3 mb-lg-0">
+                         <h6 class="text-center small">Grafico 3.1: Composizione Impieghi 2024 (%)</h6>
+                         <div class="chart-container" style="height: 300px;">
+                             <canvas id="assetsChart"></canvas>
+                         </div>
+                     </div>
+                     <div class="col-lg-6">
+                          <h6 class="text-center small">Grafico 3.2: Composizione Fonti 2024 (%)</h6>
+                          <div class="chart-container" style="height: 300px;">
+                              <canvas id="liabilitiesChart"></canvas>
+                          </div>
+                     </div>
+                 </div>
+
+                 <h6 class="mt-4">Tabella 3.1: Stato Patrimoniale Riclassificato 2022-2024 (valori in €)</h6>
+                 <div class="table-responsive">
+                     <table class="table table-sm table-striped table-hover">
+                         <thead class="table-light">
+                             <tr><th>IMPIEGHI</th><th class="text-end">12/2022</th><th class="text-end">%</th><th class="text-end">12/2023</th><th class="text-end">%</th><th class="text-end">12/2024</th><th class="text-end">%</th><th class="text-end">Δ 2023-24</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr><td>Liquidità</td><td class="text-end">7.121</td><td class="text-end">0,3%</td><td class="text-end">9.627</td><td class="text-end">0,5%</td><td class="text-end">69.964</td><td class="text-end">3,0%</td><td class="text-end text-success">+626,7%</td></tr>
+                             <tr><td>Crediti Clienti</td><td class="text-end">341.700</td><td class="text-end">15,9%</td><td class="text-end">287.930</td><td class="text-end">14,0%</td><td class="text-end">407.626</td><td class="text-end">17,6%</td><td class="text-end text-success">+41,6%</td></tr>
+                             <tr><td>Rimanenze</td><td class="text-end">439.126</td><td class="text-end">20,5%</td><td class="text-end">469.501</td><td class="text-end">22,8%</td><td class="text-end">509.425</td><td class="text-end">22,0%</td><td class="text-end text-success">+8,5%</td></tr>
+                             <tr><td>Altri Crediti</td><td class="text-end">378.841</td><td class="text-end">17,6%</td><td class="text-end">352.984</td><td class="text-end">17,1%</td><td class="text-end">412.555</td><td class="text-end">17,8%</td><td class="text-end text-success">+16,9%</td></tr>
+                             <tr><td>Totale Attivo Circolante</td><td class="text-end">1.166.788</td><td class="text-end">54,3%</td><td class="text-end">1.120.042</td><td class="text-end">54,4%</td><td class="text-end">1.399.570</td><td class="text-end">60,5%</td><td class="text-end text-success">+24,9%</td></tr>
+                             <tr><td>Immobilizzazioni Nette</td><td class="text-end">980.379</td><td class="text-end">45,7%</td><td class="text-end">939.646</td><td class="text-end">45,6%</td><td class="text-end">914.627</td><td class="text-end">39,5%</td><td class="text-end text-danger">-2,7%</td></tr>
+                             <tr class="table-primary fw-bold"><td>TOTALE IMPIEGHI</td><td class="text-end">2.147.167</td><td class="text-end">100,0%</td><td class="text-end">2.059.688</td><td class="text-end">100,0%</td><td class="text-end">2.314.197</td><td class="text-end">100,0%</td><td class="text-end text-success">+12,4%</td></tr>
+                         </tbody>
+                         <thead class="table-light">
+                              <tr><th>FONTI</th><th class="text-end">12/2022</th><th class="text-end">%</th><th class="text-end">12/2023</th><th class="text-end">%</th><th class="text-end">12/2024</th><th class="text-end">%</th><th class="text-end">Δ 2023-24</th></tr>
+                         </thead>
+                         <tbody>
+                             <tr><td>Debiti Fornitori</td><td class="text-end">306.571</td><td class="text-end">14,3%</td><td class="text-end">295.727</td><td class="text-end">14,4%</td><td class="text-end">328.417</td><td class="text-end">14,2%</td><td class="text-end text-success">+11,0%</td></tr>
+                             <tr><td>Altri Debiti</td><td class="text-end">268.341</td><td class="text-end">12,5%</td><td class="text-end">267.134</td><td class="text-end">13,0%</td><td class="text-end">189.076</td><td class="text-end">8,2%</td><td class="text-end text-danger">-29,2%</td></tr>
+                             <tr><td>Passività Correnti</td><td class="text-end">574.912</td><td class="text-end">26,8%</td><td class="text-end">562.861</td><td class="text-end">27,3%</td><td class="text-end">517.493</td><td class="text-end">22,4%</td><td class="text-end text-danger">-8,1%</td></tr>
+                             <tr><td>Fondi</td><td class="text-end">71.194</td><td class="text-end">3,3%</td><td class="text-end">81.033</td><td class="text-end">3,9%</td><td class="text-end">91.217</td><td class="text-end">3,9%</td><td class="text-end text-success">+12,6%</td></tr>
+                             <tr><td>Debiti Finanziari</td><td class="text-end">1.163.726</td><td class="text-end">54,2%</td><td class="text-end">1.065.080</td><td class="text-end">51,7%</td><td class="text-end">1.211.380</td><td class="text-end">52,3%</td><td class="text-end text-success">+13,7%</td></tr>
+                             <tr><td>di cui a M/L termine</td><td class="text-end">980.533</td><td class="text-end">45,7%</td><td class="text-end">811.501</td><td class="text-end">39,4%</td><td class="text-end">872.022</td><td class="text-end">37,7%</td><td class="text-end text-success">+7,5%</td></tr>
+                             <tr><td>di cui a Breve termine</td><td class="text-end">183.193</td><td class="text-end">8,5%</td><td class="text-end">253.579</td><td class="text-end">12,3%</td><td class="text-end">339.358</td><td class="text-end">14,7%</td><td class="text-end text-success">+33,8%</td></tr>
+                             <tr><td>Patrimonio Netto</td><td class="text-end">337.335</td><td class="text-end">15,7%</td><td class="text-end">350.714</td><td class="text-end">17,0%</td><td class="text-end">494.107</td><td class="text-end">21,4%</td><td class="text-end text-success">+40,9%</td></tr>
+                             <tr class="table-primary fw-bold"><td>TOTALE FONTI</td><td class="text-end">2.147.167</td><td class="text-end">100,0%</td><td class="text-end">2.059.688</td><td class="text-end">100,0%</td><td class="text-end">2.314.197</td><td class="text-end">100,0%</td><td class="text-end text-success">+12,4%</td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+            </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+             <div class="card-header"><h5 class="mb-0">2. Struttura degli Investimenti</h5></div>
+             <div class="card-body">
+                <p>L'analisi della struttura degli investimenti evidenzia un'azienda con un'incidenza dell'attivo immobilizzato in significativa contrazione (39,5% nel 2024 vs 45,7% nel 2022), segnalando una progressiva trasformazione verso un modello asset-light. Questo trend, atipico per un'impresa industriale del settore alimentare, richiede un'analisi approfondita delle determinanti sottostanti.</p>
+                 <div class="row">
+                    <div class="col-lg-7 mb-3 mb-lg-0">
+                         <h6 class="text-center small">Grafico 3.3: Evoluzione Struttura Impieghi (€)</h6>
+                         <div class="chart-container" style="height: 350px;">
+                             <canvas id="investmentsStructureChart"></canvas>
+                         </div>
+                    </div>
+                     <div class="col-lg-5">
+                         <h6 class="mt-1">Analisi Composizione Impieghi 2024:</h6>
+                          <ul class="small list-unstyled">
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-primary me-2"><i class="fas fa-building"></i></span><strong>Attivo Fisso (€914.627):</strong> 39,5% del Tot. Impieghi. Riduzione -2,7% rispetto al 2023.</li>
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-info me-2"><i class="fas fa-industry"></i></span><strong>Imm. Materiali (€724.718):</strong> 79,3% dell'Attivo Fisso, principalmente costituite da immobili (€831.316 lordi).</li>
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-warning me-2"><i class="fas fa-chart-line"></i></span><strong>Imm. Immateriali (€189.538):</strong> 20,7% dell'Attivo Fisso, con una componente significativa di avviamento (€155.868).</li>
+                             <li class="mb-2"><span class="icon-circle icon-circle-sm bg-icon-secondary me-2"><i class="fas fa-sync-alt"></i></span><strong>Attivo Circolante (€1.399.570):</strong> 60,5% del Tot. Impieghi. Incremento del +24,9%. <span class="text-success">Forte aumento Liquidità (+626,7%) e Crediti (+41,6%).</span></li>
+                          </ul>
+                     </div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+             <div class="card-header"><h5 class="mb-0">3. Struttura delle Fonti</h5></div>
+              <div class="card-body">
+                 <p>L'analisi della struttura delle fonti evidenzia un'azienda caratterizzata da una dipendenza critica dal capitale di terzi, con un Patrimonio Netto che rappresenta solo il 21,4% del totale delle fonti nel 2024, pur in miglioramento rispetto al 15,7% del 2022.</p>
+                 <div class="row">
+                    <div class="col-lg-6 mb-3 mb-lg-0">
+                         <h6 class="text-center small">Grafico 3.4: Composizione Patrimonio Netto 2024 (%)</h6>
+                         <div class="chart-container" style="height: 300px;">
+                             <canvas id="equityCompositionChart"></canvas>
+                         </div>
+                         <h6 class="mt-3">Analisi Patrimonio Netto (€ 494.107, +40,9%):</h6>
+                          <ul class="small list-unstyled">
+                             <li><i class="fas fa-arrow-up text-success me-1"></i> Utile in forte crescita (+971,23% YoY) a €143.390.</li>
+                             <li><i class="fas fa-exclamation-triangle text-warning me-1"></i> Incidenza su Fonti: <strong>21,4%</strong> (vs 17,0% 2023) <span class="status-badge bg-warning">Insufficiente</span>.</li>
+                          </ul>
+                    </div>
+                     <div class="col-lg-6">
+                         <h6 class="text-center small">Grafico 3.5: Composizione Fonti Finanziarie 2024 (%)</h6>
+                         <div class="chart-container" style="height: 300px;">
+                             <canvas id="financialDebtChart"></canvas>
+                         </div>
+                          <h6 class="mt-3">Analisi Debiti Finanziari (€ 1.211.380, +13,7%):</h6>
+                           <ul class="small list-unstyled">
+                              <li><i class="fas fa-arrow-up text-danger me-1"></i> Aumento significativo Debiti BT (+33,8%).</li>
+                              <li><i class="fas fa-arrow-up text-success me-1"></i> Incremento Debiti MLT (+7,5%).</li>
+                              <li><i class="fas fa-exclamation-triangle text-danger me-1"></i> Incidenza Debiti su Fonti <strong>molto alta (52,3%)</strong> <span class="status-badge bg-danger">Critico</span>.</li>
+                           </ul>
+                     </div>
+                 </div>
+              </div>
+        </div>
+
+        <div class="card mb-4 report-section">
+             <div class="card-header"><h5 class="mb-0">4. Posizione Finanziaria Netta (PFN)</h5></div>
+             <div class="card-body">
+                 <p>La Posizione Finanziaria Netta (PFN), calcolata come differenza tra i debiti finanziari e le disponibilità liquide, presenta la seguente evoluzione nel triennio.</p>
+                 <div class="row">
+                    <div class="col-lg-7 mb-3 mb-lg-0">
+                         <h6 class="mt-1">Tabella 4.1: Analisi PFN 2022-2024 (€)</h6>
+                         <div class="table-responsive">
+                             <table class="table table-sm table-striped table-hover">
+                                 <thead>
+                                     <tr><th>Componente</th><th class="text-end">12/2022</th><th class="text-end">12/2023</th><th class="text-end">12/2024</th><th class="text-end">Var% 23-24</th></tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr><td>Debiti finanziari a breve</td><td class="text-end">183.193</td><td class="text-end">253.579</td><td class="text-end">339.358</td><td class="text-end text-danger">+33,8%</td></tr>
+                                     <tr><td>Debiti finanziari a M/L termine</td><td class="text-end">980.533</td><td class="text-end">811.501</td><td class="text-end">872.022</td><td class="text-end text-danger">+7,5%</td></tr>
+                                     <tr class="table-secondary"><td>Totale Debiti Finanziari</td><td class="text-end">1.163.726</td><td class="text-end">1.065.080</td><td class="text-end">1.211.380</td><td class="text-end text-danger">+13,7%</td></tr>
+                                     <tr><td>(-) Liquidità</td><td class="text-end">7.121</td><td class="text-end">9.627</td><td class="text-end">69.964</td><td class="text-end text-success">+626,7%</td></tr>
+                                     <tr class="table-danger fw-bold"><td>Posizione Finanziaria Netta (PFN)</td><td class="text-end">1.156.605</td><td class="text-end">1.055.453</td><td class="text-end">1.141.416</td><td class="text-end text-danger">+8,1%</td></tr>
+                                     <tr class="border-top"><td colspan="5"><em>Indicatori correlati:</em></td></tr>
+                                     <tr><td>EBITDA</td><td class="text-end">92.687</td><td class="text-end">52.926</td><td class="text-end">223.543</td><td class="text-end text-success">+322,4%</td></tr>
+                                     <tr><td>PFN/EBITDA (x)</td><td class="text-end">12,48</td><td class="text-end">19,94</td><td class="text-end">5,11</td><td class="text-end text-success">-74,4%</td></tr>
+                                     <tr><td>PFN/PN (x)</td><td class="text-end">3,43</td><td class="text-end">3,01</td><td class="text-end">2,31</td><td class="text-end text-success">-23,3%</td></tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                    </div>
+                     <div class="col-lg-5">
+                         <h6 class="text-center small">Grafico 4.1: Evoluzione PFN e Componenti (€)</h6>
+                          <div class="chart-container" style="height: 300px;">
+                             <canvas id="pfnTrendChart"></canvas>
+                         </div>
+                         <h6 class="mt-3">Analisi PFN (Blue Marlin S.R.L.):</h6>
+                         <ul class="small list-unstyled">
+                             <li><i class="fas fa-arrow-up text-danger me-1"></i> Valore Assoluto PFN in aumento (+8,1%), trend negativo.</li>
+                             <li><i class="fas fa-exclamation-triangle text-danger me-1"></i> Causato da <strong>forte aumento Debiti BT (+33,8%)</strong> e incremento Debiti MLT (+7,5%).</li>
+                             <li><i class="fas fa-exclamation-triangle text-danger me-1"></i> Sostenibilità PFN/EBITDA: 5,11x (Critico > 4,5x).</li>
+                              <li><i class="fas fa-exclamation-triangle text-warning me-1"></i> Leva PFN/PN: 2,31x (Elevato > 2,0x).</li>
+                         </ul>
+                     </div>
+                 </div>
+             </div>
+         </div>
+
+         <div class="card mb-4 report-section">
+            <div class="card-header"><h5 class="mb-0">5. Indici di Solidità Patrimoniale</h5></div>
+             <div class="card-body">
+                 <p>L'analisi degli indici di solidità patrimoniale fornisce ulteriori elementi per valutare l'equilibrio della struttura finanziaria dell'azienda nel medio-lungo termine.</p>
+                  <h6 class="mt-4">Tabella 5.1: Principali Indici di Solidità 2022-2024 (Blue Marlin S.R.L.)</h6>
+                  <div class="table-responsive">
+                     <table class="table table-sm table-striped table-hover">
+                         <thead class="table-light"><tr><th>Indice</th><th class="text-end">2022</th><th class="text-end">2023</th><th class="text-end">2024</th><th>Valutazione 2024</th></tr></thead>
+                         <tbody>
+                             <tr><td>Copertura Immobilizzazioni</td><td class="text-end">0,34</td><td class="text-end">0,37</td><td class="text-end">0,54</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                             <tr><td>Indice Autonomia Finanziaria</td><td class="text-end">15,7%</td><td class="text-end">17,0%</td><td class="text-end">21,4%</td><td><span class="status-badge bg-warning">Insufficiente</span></td></tr>
+                             <tr><td>Leva Finanziaria (D/E)</td><td class="text-end">3,45</td><td class="text-end">3,04</td><td class="text-end">2,45</td><td><span class="status-badge bg-warning">Elevato</span></td></tr>
+                             <tr><td>Turnover (Ricavi/CIN)</td><td class="text-end">0,84</td><td class="text-end">0,88</td><td class="text-end">0,75</td><td><span class="status-badge bg-danger">Insufficiente</span></td></tr>
+                             <tr><td>Indice Struttura Secondario</td><td class="text-end">1,34</td><td class="text-end">1,24</td><td class="text-end">1,49</td><td><span class="status-badge bg-success">Adeguato</span></td></tr>
+                             <tr><td>PFN/EBITDA</td><td class="text-end">12,48</td><td class="text-end">19,94</td><td class="text-end">5,11</td><td><span class="status-badge bg-danger">Critico</span></td></tr>
+                         </tbody>
+                     </table>
+                 </div>
+                 <div class="row mt-3 small">
+                     <div class="col-md-6"><i class="fas fa-exclamation-triangle text-danger me-1"></i><strong>Copertura Immob. (0,54):</strong> Grave squilibrio strutturale (<<1).</div>
+                     <div class="col-md-6"><i class="fas fa-exclamation-triangle text-warning me-1"></i><strong>Autonomia Fin. (21,4%):</strong> Insufficiente ma in miglioramento.</div>
+                     <div class="col-md-6"><i class="fas fa-exclamation-triangle text-warning me-1"></i><strong>Efficienza Investimenti:</strong> Turnover (0,75x) Insufficiente, Leva D/E (2,45x) Elevata.</div>
+                     <div class="col-md-6"><i class="fas fa-exclamation-triangle text-danger me-1"></i><strong>PFN/EBITDA (5,11x):</strong> Critico (>4,5x).</div>
+                 </div>
+             </div>
+        </div>
+
+        <div class="card summary-card mb-4 report-section">
+             <div class="card-body">
+                 <h5 class="card-title"><i class="fas fa-exclamation-circle text-danger me-2"></i>6. Conclusioni Analisi Patrimoniale (Blue Marlin S.R.L.)</h5>
+                 <p>L'analisi patrimoniale di Blue Marlin S.R.L. evidenzia una <strong>struttura squilibrata</strong>, con sottocapitalizzazione (21,4%), indebitamento elevato (D/E 2,45x) e grave disequilibrio strutturale (copertura immobilizzazioni 0,54).</p>
+                 <p>Il capitale circolante presenta anomalie significative, con giorni magazzino (292) e giorni crediti (120) eccessivamente elevati, configurando un <strong>rischio di liquidità</strong> nel breve-medio periodo.</p>
+                 <p><strong>Aree di intervento urgente:</strong> <strong>ricapitalizzazione</strong> (minimo €300.000), <strong>ottimizzazione capitale circolante</strong> con riduzione giorni magazzino e crediti, <strong>ristrutturazione del debito</strong> con consolidamento a MLT.</p>
+                 <p class="mb-0"><strong>Priorità assoluta:</strong> Piano di risanamento patrimoniale con ottimizzazione aggressiva del capitale circolante per liberare liquidità e ridurre il rischio finanziario.</p>
+             </div>
+         </div>
+
+            <!-- ================================================================ -->
+            <!-- FINE CONTENUTO SPECIFICO PARTE 3 -->
+            <!-- ================================================================ -->
+
+        </div> <!-- /dashboard-container -->
+
+        <!-- Footer Standard V2 (Nessuna modifica necessaria) -->
+        <footer class="footer no-print"> <div class="container-fluid px-4"> <div class="row align-items-center"> <div class="col-md-6 text-center text-md-start mb-2 mb-md-0"> SCAN360 © <span id="currentYearFooterReport"></span> </div> <div class="col-md-6 text-center text-md-end"> Powered by <a href="http://www.kitzanos.com" target="_blank" class="text-white fw-bold">Kitzanos Lab</a> <img src="../assets/img/logo_kitzanos.png" alt="Kitzanos Logo" class="ms-2"> </div> </div> </div> </footer>
+
+    </div> <!-- /main-wrapper -->
+
+    <!-- Script JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="../js/common.js"></script>
+    <script src="../js/charts_config.js"></script>
+    <script src="../js/report_init.js"></script>
+     <script>
+        document.getElementById('currentYearSidebar').textContent = new Date().getFullYear();
+        document.getElementById('currentYearFooterReport').textContent = new Date().getFullYear();
+
+         // Script aggiornamento badge IRP header
+         document.addEventListener('DOMContentLoaded', function() {
+             const irpScoreValue = 56.32; // Updated IRP Value
+             const irpHeaderBadge = document.getElementById('irp-header-badge');
+             if(irpHeaderBadge) {
+                 let badgeClass = 'bg-warning text-dark';
+                 if (irpScoreValue >= 71) badgeClass = 'bg-success'; // Basso
+                 else if (irpScoreValue < 51) badgeClass = 'bg-danger'; // Alto
+                 irpHeaderBadge.className = `badge ${badgeClass} me-3`;
+                 irpHeaderBadge.textContent = `IRP: ${irpScoreValue.toFixed(1)}`;
+             }
+
+             // Ensure logout function is defined
+             if (typeof logout !== 'function') {
+                 window.logout = function() {
+                    console.log("Logout action triggered (placeholder)");
+                }
+             }
+             // Ensure print function is defined
+             if (typeof printDocument !== 'function') {
+                window.printDocument = function() {
+                    window.print();
+                }
+             }
+         });
+    </script>
+     <!-- Script ChatNode -->
+<scan-chat data-bot-id="be3888cc-0096-4c66-a760-00e22a793edc"></scan-chat>
+<script src="../js/bundle.js"></script>
+</body>
+</html>
